@@ -256,13 +256,30 @@ Supabase가 인증 서비스를 제공해도 세션·개인 권한·저장 실�
 - 레시피 목록·상세·컴포넌트·조회 함수·DB는 모두 A. 상품과 연결하는 ID·조회 결과 형식만 B와 합의.
 - A의 `RecipeCard`, B의 `ProductCard`는 담당자가 모바일까지 구현. 다른 페이지 담당자는 공통 카드를 재사용하고 각자 주변 레이아웃을 조정.
 - 각자 자기 README 항목·캡처·발표 설명을 작성. 공통 문구 변경은 PR에서 함께 검토.
-- 확정된 담당 이름은 아래 표에 입력.
+- 담당자: A 조영우, B 심우섭, C 이상재. 공통 작업은 세 사람이 함께 담당.
 
 | 역할 | 이름 | 작업 브랜치 예시 |
 |---|---|---|
-| A | 미정 | `feat/brand`, `feat/recipes` |
-| B | 미정 | `feat/products`, `feat/vegetables` |
-| C | 미정 | `feat/auth`, `feat/shopping`, `feat/layout` |
+| A | 조영우 | `feat/brand`, `feat/recipes` |
+| B | 심우섭 | `feat/products`, `feat/vegetables` |
+| C | 이상재 | `feat/auth`, `feat/shopping`, `feat/layout` |
+
+### Redmine 작업 현황 관리
+
+[6팀 Redmine 일감 목록](https://redmine-302549221655.asia-northeast3.run.app/projects/ax2-react-team6/issues)에서 진행 현황을 관리합니다. 2026-10-07에 14개 일감(#2~#15)을 등록하고 실제 담당자를 지정했습니다. 등록 상태는 신규·0%이며, 구현 완료를 의미하지 않습니다. 시작일·마감일·추정시간은 팀이 합의한 뒤 입력합니다.
+
+| 역할 | 실제 담당자 | 등록된 일감 |
+|---|---|---|
+| A | 조영우 | [#3 메인·이야기](https://redmine-302549221655.asia-northeast3.run.app/issues/3), [#4 레시피 전체](https://redmine-302549221655.asia-northeast3.run.app/issues/4), [#5 디자인 규칙](https://redmine-302549221655.asia-northeast3.run.app/issues/5) |
+| B | 심우섭 | [#6 상품 목록·필터](https://redmine-302549221655.asia-northeast3.run.app/issues/6), [#7 상품·채소 상세](https://redmine-302549221655.asia-northeast3.run.app/issues/7), [#8 상품·채소 DB](https://redmine-302549221655.asia-northeast3.run.app/issues/8), [#9 배포](https://redmine-302549221655.asia-northeast3.run.app/issues/9) |
+| C | 이상재 | [#10 공통 기반](https://redmine-302549221655.asia-northeast3.run.app/issues/10), [#11 공통 레이아웃·메뉴](https://redmine-302549221655.asia-northeast3.run.app/issues/11), [#12 인증](https://redmine-302549221655.asia-northeast3.run.app/issues/12), [#13 마이페이지](https://redmine-302549221655.asia-northeast3.run.app/issues/13), [#14 장바구니·찜](https://redmine-302549221655.asia-northeast3.run.app/issues/14) |
+| 공통 | 조영우·심우섭·이상재 | [#2 계획·역할·흐름 검토](https://redmine-302549221655.asia-northeast3.run.app/issues/2), [#15 통합·모바일 검수·시연](https://redmine-302549221655.asia-northeast3.run.app/issues/15) |
+
+Redmine의 담당자 필드는 한 명만 선택할 수 있으므로 공통 일감의 대표 담당자는 조영우로 지정하고, 설명에는 조영우·심우섭·이상재를 공동 담당자로 기록합니다. 세 사람 모두 일감관람자로 등록했습니다. 대표 지정은 공동 작업을 조영우 혼자 수행한다는 의미가 아닙니다. Redmine 계정 표시는 각각 ‘영우 조’, ‘우섭 심’, ‘상재 이’입니다.
+
+작업을 시작하거나 마무리할 때 해당 일감 → 편집 → 담당자·상태·진척도 확인 → 댓글에 오늘 한 일·막힌 점·다음 작업·PR/캡처 링크 → 확인 순서로 갱신합니다. 현재 상태 선택지는 신규·진행·해결·의견·완료·거절입니다. 실제 완료 조건과 모바일 검수 결과를 확인한 뒤 완료 처리합니다.
+
+[팀 노션](https://app.notion.com/p/teamsparta/6-3f22dc3ef514808ea570f2df24d9af94)의 개인 일지에는 역할·문제·접근·결과를 기록하고 해당 Redmine 일감 링크를 붙입니다. Redmine은 작업 상태, 노션은 수행 과정, GitHub PR은 코드 변경의 근거로 사용합니다.
 
 ## 6. 백엔드 구성과 작업 경계
 
