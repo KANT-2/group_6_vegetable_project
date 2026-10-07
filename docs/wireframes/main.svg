@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="900" viewBox="0 0 800 900" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <defs>
+    <g id="x"><line x1="0" y1="0" x2="1" y2="1" stroke="#b0b0b0" vector-effect="non-scaling-stroke"/><line x1="1" y1="0" x2="0" y2="1" stroke="#b0b0b0" vector-effect="non-scaling-stroke"/></g>
+  </defs>
+  <rect width="800" height="900" fill="#ffffff"/>
+
+  <!-- browser frame -->
+  <rect x="20" y="20" width="760" height="860" rx="12" fill="#fff" stroke="#888"/>
+  <rect x="20" y="20" width="760" height="36" rx="12" fill="#f2f2f2" stroke="#888"/>
+  <circle cx="42" cy="38" r="5" fill="#ccc"/><circle cx="58" cy="38" r="5" fill="#ccc"/><circle cx="74" cy="38" r="5" fill="#ccc"/>
+  <rect x="96" y="28" width="300" height="20" rx="4" fill="#fff" stroke="#ccc"/>
+  <text x="106" y="42" font-size="12" fill="#888">localhost:3000</text>
+
+  <!-- header -->
+  <rect x="20" y="56" width="760" height="56" fill="#fafafa" stroke="#ddd"/>
+  <text x="44" y="90" font-size="18" font-weight="bold" fill="#333">못난이마켓</text>
+  <text x="560" y="90" font-size="14" fill="#555">홈</text>
+  <text x="600" y="90" font-size="14" fill="#555">전체 상품</text>
+  <rect x="700" y="72" width="28" height="24" rx="4" fill="none" stroke="#555"/>
+  <text x="714" y="89" font-size="12" text-anchor="middle" fill="#555">카트</text>
+  <circle cx="732" cy="72" r="9" fill="#555"/><text x="732" y="76" font-size="11" text-anchor="middle" fill="#fff">2</text>
+  <text x="776" y="70" font-size="11" text-anchor="end" fill="#2563eb">① Header</text>
+
+  <!-- hero -->
+  <rect x="44" y="132" width="712" height="240" rx="8" fill="#eeeeee" stroke="#999"/>
+  <use href="#x" transform="translate(44 132) scale(712 240)"/>
+  <rect x="300" y="236" width="200" height="30" rx="4" fill="#fff" stroke="#999"/>
+  <text x="400" y="256" font-size="13" text-anchor="middle" fill="#666">이미지: hero.jpg (1600×600)</text>
+  <rect x="72" y="176" width="300" height="130" rx="6" fill="#ffffff" stroke="#999"/>
+  <text x="92" y="204" font-size="13" fill="#666">B급이라 더 착한 가격</text>
+  <text x="92" y="236" font-size="20" font-weight="bold" fill="#333">못생겨도 맛은 1등급입니다</text>
+  <rect x="92" y="256" width="120" height="34" rx="4" fill="#555"/>
+  <text x="152" y="278" font-size="13" text-anchor="middle" fill="#fff">지금 둘러보기</text>
+  <text x="756" y="126" font-size="11" text-anchor="end" fill="#2563eb">② 히어로 배너 (클릭 시 /products)</text>
+
+  <!-- categories -->
+  <g font-size="13" fill="#555">
+    <rect x="44" y="396" width="60" height="30" rx="15" fill="#fff" stroke="#999"/><text x="74" y="416" text-anchor="middle">전체</text>
+    <rect x="114" y="396" width="84" height="30" rx="15" fill="#fff" stroke="#999"/><text x="156" y="416" text-anchor="middle">뿌리채소</text>
+    <rect x="208" y="396" width="72" height="30" rx="15" fill="#fff" stroke="#999"/><text x="244" y="416" text-anchor="middle">잎채소</text>
+    <rect x="290" y="396" width="60" height="30" rx="15" fill="#fff" stroke="#999"/><text x="320" y="416" text-anchor="middle">과일</text>
+    <rect x="360" y="396" width="60" height="30" rx="15" fill="#fff" stroke="#999"/><text x="390" y="416" text-anchor="middle">버섯</text>
+  </g>
+  <text x="756" y="416" font-size="11" text-anchor="end" fill="#2563eb">③ 카테고리 (선택 구현)</text>
+
+  <!-- popular -->
+  <text x="44" y="468" font-size="17" font-weight="bold" fill="#333">이번 주 인기 못난이</text>
+  <text x="756" y="468" font-size="11" text-anchor="end" fill="#2563eb">④ ProductCard × 4</text>
+
+  <g>
+    <rect x="44" y="484" width="166" height="270" rx="8" fill="#fff" stroke="#999"/>
+    <rect x="44" y="484" width="166" height="166" rx="8" fill="#eee" stroke="#999"/><use href="#x" transform="translate(44 484) scale(166 166)"/>
+    <rect x="72" y="556" width="110" height="22" rx="4" fill="#fff" stroke="#999"/><text x="127" y="571" font-size="12" text-anchor="middle" fill="#666">carrot.jpg</text>
+    <text x="56" y="674" font-size="11" fill="#777">휘어졌어요</text>
+    <text x="56" y="696" font-size="14" fill="#333">못난이 당근 1kg</text>
+    <text x="56" y="722" font-size="14" font-weight="bold" fill="#333">40% 2,900원</text>
+    <text x="56" y="742" font-size="11" fill="#999" text-decoration="line-through">4,800원</text>
+  </g>
+  <g>
+    <rect x="226" y="484" width="166" height="270" rx="8" fill="#fff" stroke="#999"/>
+    <rect x="226" y="484" width="166" height="166" rx="8" fill="#eee" stroke="#999"/><use href="#x" transform="translate(226 484) scale(166 166)"/>
+    <rect x="254" y="556" width="110" height="22" rx="4" fill="#fff" stroke="#999"/><text x="309" y="571" font-size="12" text-anchor="middle" fill="#666">apple.jpg</text>
+    <text x="238" y="674" font-size="11" fill="#777">흠집 있어요</text>
+    <text x="238" y="696" font-size="14" fill="#333">흠과 사과 2kg</text>
+    <text x="238" y="722" font-size="14" font-weight="bold" fill="#333">35% 12,900원</text>
+    <text x="238" y="742" font-size="11" fill="#999" text-decoration="line-through">19,800원</text>
+  </g>
+  <g>
+    <rect x="408" y="484" width="166" height="270" rx="8" fill="#fff" stroke="#999"/>
+    <rect x="408" y="484" width="166" height="166" rx="8" fill="#eee" stroke="#999"/><use href="#x" transform="translate(408 484) scale(166 166)"/>
+    <rect x="436" y="556" width="110" height="22" rx="4" fill="#fff" stroke="#999"/><text x="491" y="571" font-size="12" text-anchor="middle" fill="#666">shiitake.jpg</text>
+    <text x="420" y="674" font-size="11" fill="#777">크기가 제각각</text>
+    <text x="420" y="696" font-size="14" fill="#333">B급 표고버섯 500g</text>
+    <text x="420" y="722" font-size="14" font-weight="bold" fill="#333">30% 6,900원</text>
+    <text x="420" y="742" font-size="11" fill="#999" text-decoration="line-through">9,900원</text>
+  </g>
+  <g>
+    <rect x="590" y="484" width="166" height="270" rx="8" fill="#fff" stroke="#999"/>
+    <rect x="590" y="484" width="166" height="166" rx="8" fill="#eee" stroke="#999"/><use href="#x" transform="translate(590 484) scale(166 166)"/>
+    <rect x="618" y="556" width="110" height="22" rx="4" fill="#fff" stroke="#999"/><text x="673" y="571" font-size="12" text-anchor="middle" fill="#666">cabbage.jpg</text>
+    <text x="602" y="674" font-size="11" fill="#777">크기가 작아요</text>
+    <text x="602" y="696" font-size="14" fill="#333">꼬마 양배추 1통</text>
+    <text x="602" y="722" font-size="14" font-weight="bold" fill="#333">45% 1,900원</text>
+    <text x="602" y="742" font-size="11" fill="#999" text-decoration="line-through">3,500원</text>
+  </g>
+
+  <!-- footer -->
+  <rect x="20" y="790" width="760" height="90" fill="#fafafa" stroke="#ddd"/>
+  <text x="44" y="826" font-size="14" font-weight="bold" fill="#555">못난이마켓</text>
+  <text x="44" y="850" font-size="12" fill="#888">버려지는 농산물을 줄이는 가치소비 쇼핑몰 · © 2026 Team 못난이</text>
+  <text x="776" y="806" font-size="11" text-anchor="end" fill="#2563eb">⑤ Footer</text>
+</svg>

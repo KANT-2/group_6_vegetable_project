@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="900" viewBox="0 0 800 900" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <defs>
+    <g id="x"><line x1="0" y1="0" x2="1" y2="1" stroke="#b0b0b0" vector-effect="non-scaling-stroke"/><line x1="1" y1="0" x2="0" y2="1" stroke="#b0b0b0" vector-effect="non-scaling-stroke"/></g>
+  </defs>
+  <rect width="800" height="900" fill="#ffffff"/>
+
+  <rect x="20" y="20" width="760" height="860" rx="12" fill="#fff" stroke="#888"/>
+  <rect x="20" y="20" width="760" height="36" rx="12" fill="#f2f2f2" stroke="#888"/>
+  <circle cx="42" cy="38" r="5" fill="#ccc"/><circle cx="58" cy="38" r="5" fill="#ccc"/><circle cx="74" cy="38" r="5" fill="#ccc"/>
+  <rect x="96" y="28" width="300" height="20" rx="4" fill="#fff" stroke="#ccc"/>
+  <text x="106" y="42" font-size="12" fill="#888">localhost:3000/products/1</text>
+
+  <rect x="20" y="56" width="760" height="56" fill="#fafafa" stroke="#ddd"/>
+  <text x="44" y="90" font-size="18" font-weight="bold" fill="#333">못난이마켓</text>
+  <text x="560" y="90" font-size="14" fill="#555">홈</text>
+  <text x="600" y="90" font-size="14" fill="#555">전체 상품</text>
+  <rect x="700" y="72" width="28" height="24" rx="4" fill="none" stroke="#555"/>
+  <text x="714" y="89" font-size="12" text-anchor="middle" fill="#555">카트</text>
+  <circle cx="732" cy="72" r="9" fill="#555"/><text x="732" y="76" font-size="11" text-anchor="middle" fill="#fff">3</text>
+  <text x="640" y="128" font-size="11" text-anchor="end" fill="#2563eb">⑤ 담기 클릭 시 뱃지 +1 (CartContext)</text>
+  <line x1="644" y1="124" x2="722" y2="84" stroke="#2563eb" stroke-dasharray="3 3"/>
+
+  <text x="44" y="146" font-size="13" fill="#666">← 목록으로</text>
+
+  <!-- image -->
+  <rect x="44" y="164" width="340" height="340" rx="8" fill="#eee" stroke="#999"/>
+  <use href="#x" transform="translate(44 164) scale(340 340)"/>
+  <rect x="149" y="322" width="130" height="24" rx="4" fill="#fff" stroke="#999"/>
+  <text x="214" y="339" font-size="12" text-anchor="middle" fill="#666">carrot.jpg (1:1)</text>
+  <text x="44" y="522" font-size="11" fill="#2563eb">① aspect-square + object-cover</text>
+
+  <!-- info -->
+  <rect x="408" y="164" width="88" height="24" rx="4" fill="#fff" stroke="#999"/><text x="452" y="181" font-size="12" text-anchor="middle" fill="#555">휘어졌어요</text>
+  <rect x="504" y="164" width="104" height="24" rx="4" fill="#fff" stroke="#999"/><text x="556" y="181" font-size="12" text-anchor="middle" fill="#555">해남 김씨농장</text>
+  <text x="408" y="226" font-size="24" font-weight="bold" fill="#333">못난이 당근 1kg</text>
+  <text x="408" y="262" font-size="20" font-weight="bold" fill="#333">40% 2,900원</text>
+  <text x="560" y="262" font-size="13" fill="#999" text-decoration="line-through">4,800원</text>
+  <text x="756" y="226" font-size="11" text-anchor="end" fill="#2563eb">② 상품 정보</text>
+
+  <rect x="408" y="282" width="348" height="10" rx="2" fill="#e5e5e5"/>
+  <rect x="408" y="300" width="348" height="10" rx="2" fill="#e5e5e5"/>
+  <rect x="408" y="318" width="220" height="10" rx="2" fill="#e5e5e5"/>
+  <text x="756" y="346" font-size="11" text-anchor="end" fill="#999">description</text>
+
+  <rect x="408" y="358" width="348" height="74" rx="6" fill="#f7f7f7" stroke="#bbb"/>
+  <text x="422" y="382" font-size="13" font-weight="bold" fill="#444">이 채소로 만드는 추천 요리</text>
+  <text x="422" y="410" font-size="13" fill="#666">당근 라페 · 당근 수프 · 당근 케이크</text>
+  <text x="756" y="448" font-size="11" text-anchor="end" fill="#2563eb">③ recipes.map() (AI 추천은 다음 단계)</text>
+
+  <rect x="408" y="458" width="348" height="46" rx="6" fill="#555"/>
+  <text x="582" y="487" font-size="15" font-weight="bold" text-anchor="middle" fill="#fff">장바구니 담기</text>
+  <text x="408" y="522" font-size="11" fill="#2563eb">④ AddToCartButton ("use client")</text>
+
+  <!-- story -->
+  <rect x="44" y="548" width="712" height="80" rx="8" fill="#fafafa" stroke="#ccc"/>
+  <text x="64" y="580" font-size="14" font-weight="bold" fill="#444">농가 이야기</text>
+  <text x="64" y="606" font-size="13" fill="#666">이 한 봉지로 김씨농장의 땀이 버려지지 않았어요.</text>
+
+  <!-- error state -->
+  <text x="44" y="672" font-size="13" font-weight="bold" fill="#333">예외 화면: /products/999 처럼 없는 ID로 접근했을 때</text>
+  <rect x="44" y="686" width="712" height="160" rx="8" fill="#fff" stroke="#999" stroke-dasharray="6 4"/>
+  <text x="400" y="752" font-size="18" text-anchor="middle" fill="#333">상품을 찾을 수 없습니다</text>
+  <rect x="320" y="774" width="160" height="36" rx="4" fill="#fff" stroke="#555"/>
+  <text x="400" y="797" font-size="13" text-anchor="middle" fill="#555">상품 목록으로 돌아가기</text>
+  <text x="756" y="862" font-size="11" text-anchor="end" fill="#2563eb">⑥ products.find() 결과가 없으면 안내 화면 출력 (크래시 방지)</text>
+</svg>
