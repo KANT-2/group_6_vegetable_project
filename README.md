@@ -8,7 +8,7 @@
 
 **현재 상태:** 이 README는 개발 계획과 협업 기준입니다. 문서 작성 시 저장소에는 애플리케이션 코드가 없었습니다. 아래 폴더·DB·함수·실행 명령은 구축할 구조이며, 기능 구현이나 배포 완료를 의미하지 않습니다. 초기 환경 구축 후 실제 설정과 진행 상태를 갱신합니다.
 
-저장소 이름 `group_6_library_project`는 현재 그대로 사용하고, 서비스 이름은 **못난이마켓**으로 정합니다. A·B·C의 실제 담당자 이름은 팀에서 확정합니다.
+저장소 이름은 `group_6_vegetable_project`이며, 서비스 이름은 **못난이마켓**입니다. A·B·C의 실제 담당자 이름은 팀에서 확정합니다.
 
 ## 목차
 
@@ -104,7 +104,7 @@
 | [VS Code](https://code.visualstudio.com/) | 코드 편집, 터미널, 변경 확인 | 전원 사용, 저장 시 서식 정리 |
 | [Node.js](https://nodejs.org/en/download) | Next.js 실행과 npm | 24.x LTS 주 버전 통일 |
 | [Git](https://git-scm.com/downloads) | 브랜치·커밋·동기화 | 전원 설치 |
-| [GitHub](https://github.com/KANT-2/group_6_library_project) | 저장소·PR·이슈 | 전원 저장소 접근 권한 확인 |
+| [GitHub](https://github.com/KANT-2/group_6_vegetable_project) | 저장소·PR·이슈 | 전원 저장소 접근 권한 확인 |
 | Chrome 또는 Edge | 브라우저 검수 | 개발자 도구로 모바일·통신·오류 확인 |
 | [Supabase Dashboard](https://supabase.com/dashboard) | Auth·DB·Storage 확인 | C가 초기 설정, 각자 자기 데이터 확인 |
 | [Vercel Dashboard](https://vercel.com/dashboard) | 배포와 로그 확인 | C가 초기 연결, 전원 Preview 검수 |
@@ -134,7 +134,7 @@ VS Code에는 TypeScript 지원이 포함되어 있어 별도 TypeScript 편집�
 
 | 담당 | URL | 페이지 | 핵심 요소 | 접근 |
 |---|---|---|---|---|
-| A | `/` | 메인 | 히어로, 카테고리, 추천 상품 4개, 브랜드 가치 | 공개 |
+| A | `/` | 메인 | 히어로, 이야기·상품·레시피·채소 정보 진입, 추천 상품 4개 | 공개 |
 | A | `/story` | 이야기 | 농가 이야기, 비규격 농산물, 가치소비 | 공개 |
 | A | `/recipes` | 레시피 목록 | 요리 카드, 간단한 소개 | 공개 |
 | A | `/recipes/[id]` | 레시피 상세 | 재료, 순서, 관련 판매 상품 | 공개 |
@@ -147,22 +147,47 @@ VS Code에는 TypeScript 지원이 포함되어 있어 별도 TypeScript 편집�
 
 페이지 수는 **화면 유형 10개** 기준입니다. 감자 상세와 당근 상세는 같은 동적 페이지 유형으로 계산합니다. 찜은 별도 `/wishlist` 페이지를 만들지 않습니다.
 
+### 공개 페이지의 기본 이동 흐름
+
+메인에서 **이야기 / 상품 목록 / 레시피 목록 / 채소 정보**로 각각 진입합니다. 아래 박스는 화면 이동 흐름이며 DB 테이블 관계를 나타내는 ERD는 아닙니다.
+
 ```mermaid
-flowchart LR
-    H[메인] --> P[상품 목록]
-    H --> S[이야기]
-    H --> R[레시피 목록]
-    P --> PD[상품 상세]
-    PD --> V[채소 정보]
-    PD --> RD[레시피 상세]
-    R --> RD
-    RD --> PD
-    PD --> L[로그인]
-    L --> C[장바구니 · 찜]
-    L --> M[마이페이지]
+flowchart TD
+    HOME["메인 /"]
+    STORY["이야기 /story"]
+    PRODUCTS["상품 목록 /products"]
+    RECIPES["레시피 목록 /recipes"]
+    VEGETABLE["채소 정보 /vegetables/{id}"]
+    PRODUCT_DETAIL["상품 상세 /products/{id}"]
+    RECIPE_DETAIL["레시피 상세 /recipes/{id}"]
+
+    HOME --> STORY
+    HOME --> PRODUCTS
+    HOME --> RECIPES
+    HOME -->|채소 선택| VEGETABLE
+    PRODUCTS --> PRODUCT_DETAIL
+    RECIPES --> RECIPE_DETAIL
 ```
 
-로그인한 사용자는 상품 상세에서 바로 담기·찜을 실행합니다. 비로그인 사용자는 로그인 후 원래 화면으로 돌아오고, 초기 범위에서는 자동 담기 없이 버튼을 다시 누르도록 안내합니다.
+박스의 `{id}`는 실제 Next.js 폴더 `[id]`의 동적 ID를 뜻합니다. 채소 정보는 메인의 채소 선택 링크에서 바로 상세로 연결합니다. 별도 `/vegetables` 목록 페이지는 추가하지 않아 기존 10페이지 구성을 유지합니다.
+
+### 상세 페이지 간 연결
+
+| 현재 화면 | 이동할 화면 | 화면 안의 링크 |
+|---|---|---|
+| 이야기 | 상품 목록 | 채소 만나보기 |
+| 상품 상세 | 채소 정보 | 이 채소 알아보기 |
+| 상품 상세 | 레시피 상세 | 관련 요리 카드 |
+| 채소 정보 | 상품 상세·레시피 상세 | 관련 상품·요리 카드 |
+| 레시피 상세 | 상품 상세 | 구매 가능한 재료 상품 |
+
+상세 간 연결을 기본 흐름 박스의 교차 화살표로 겹쳐 그리지 않고 위 표로 구분합니다. 공개 정보는 로그인 없이 둘러볼 수 있습니다.
+
+### 로그인과 개인 화면
+
+장바구니·찜 `/cart`와 마이페이지 `/mypage`는 헤더의 개인 메뉴에서 접근합니다. 로그인한 사용자는 바로 이용하고, 비로그인 사용자는 `/login?next=...`로 안내한 뒤 원래 요청한 화면으로 돌아옵니다. 로그인 화면을 반드시 거쳐야 모든 페이지를 볼 수 있는 구조로 표시하지 않습니다.
+
+상품 상세의 담기·찜 버튼도 같은 인증 규칙을 사용합니다. 초기 범위에서는 비로그인 상태의 클릭을 로그인 후 자동 실행하지 않고, 원래 상품 화면에서 다시 누르도록 안내합니다.
 
 ## 5. 역할 분담
 
@@ -178,7 +203,7 @@ flowchart LR
 
 ### A — 콘텐츠·디자인·레시피
 
-**프론트:** 메인, 이야기, 레시피 목록·상세, Header·Footer·공통 UI, 색상·글자·여백.
+**프론트:** 메인, 이야기, 레시피 목록·상세, Header·Footer·공통 UI, 색상·글자·여백. 메인의 이야기·상품·레시피·채소 정보 진입 영역을 구성하고 B의 채소 ID·조회 데이터로 선택 링크를 연결.
 
 **백엔드:** `getRecipes`, `getRecipe`, `getRecipesByProduct`, `getRecipesByVegetable`; 레시피 테이블과 상품 연결 테이블, 공개 읽기 정책, 예시 데이터.
 
@@ -266,7 +291,7 @@ flowchart TD
 아래는 **구축 예정 구조**입니다. 선택 API·테스트 파일은 필요해질 때 생성하며, 현재 존재하는 파일 목록이 아닙니다.
 
 ```text
-group_6_library_project/
+group_6_vegetable_project/
 ├─ src/
 │  ├─ app/
 │  │  ├─ layout.tsx                       # A: 전체 레이아웃, C와 Provider 조율
@@ -555,8 +580,8 @@ git --version
 README가 있는 저장소 루트에 앱 생성을 무작정 실행하지 않습니다. 별도 임시 폴더에서 생성하고 필요한 앱 파일만 저장소로 옮겨 README와 `.git`을 보존합니다.
 
 ```bash
-git clone https://github.com/KANT-2/group_6_library_project.git
-cd group_6_library_project
+git clone https://github.com/KANT-2/group_6_vegetable_project.git
+cd group_6_vegetable_project
 git switch -c feat/setup
 npx create-next-app@16 ../motnani-app --typescript --tailwind --eslint --app --src-dir --use-npm --import-alias "@/*"
 ```
@@ -623,8 +648,8 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 **초기 앱 구축이 main에 합쳐진 뒤** 모든 팀원이 아래 순서로 실행합니다. 현재 README만 있는 상태에서는 `npm ci`나 앱 실행이 되지 않습니다.
 
 ```bash
-git clone https://github.com/KANT-2/group_6_library_project.git
-cd group_6_library_project
+git clone https://github.com/KANT-2/group_6_vegetable_project.git
+cd group_6_vegetable_project
 npm ci
 ```
 
@@ -692,6 +717,7 @@ git push -u origin feat/products
 - 배경: Warm White·Ivory. 이미지 자리: 연한 Beige. 주요 CTA: 차분한 Deep Green. 본문: Dark Gray.
 - 강한 초록·형광색·광고 배너·쿠폰 팝업은 사용하지 않음.
 - 메인 추천 상품은 4개. 브랜드 설명과 상품 판매 영역을 여백으로 분리.
+- 메인에서 이야기·상품 목록·레시피 목록·채소 정보로 각각 이동 가능. 채소 정보는 간단한 채소 선택 링크로 연결하고 설명을 메인에 길게 펼치지 않음.
 - ProductCard: 이미지 → 이름 → 판매가·정상가·할인율 → 못난이 이유 1개.
 - Desktop 목록: 3~4열, 필터는 왼쪽 또는 상단. Mobile 목록: 기본 2열, 아주 좁은 화면은 가독성에 따라 1열.
 - Desktop 상세: 큰 이미지와 구매 정보의 2열. Mobile 상세: 세로 배치와 하단 주요 버튼.
@@ -726,6 +752,7 @@ git push -u origin feat/products
 ### 공개 화면
 
 - [ ] 10개 페이지 유형의 URL이 정해진 담당 화면으로 연결된다.
+- [ ] 메인에서 이야기·상품 목록·레시피 목록·채소 정보로 각각 진입할 수 있다.
 - [ ] 상품·채소·레시피 ID가 데이터 관계와 맞는다.
 - [ ] 없는 상품·채소·레시피 ID는 404 처리한다.
 - [ ] 필터·정렬 결과, 결과 없음, 초기화가 동작한다.
