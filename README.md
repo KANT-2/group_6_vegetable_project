@@ -8,7 +8,7 @@
 
 **현재 상태:** 이 README는 개발 계획과 협업 기준입니다. 문서 작성 시 저장소에는 애플리케이션 코드가 없었습니다. 아래 폴더·DB·함수·실행 명령은 구축할 구조이며, 기능 구현이나 배포 완료를 의미하지 않습니다. 초기 환경 구축 후 실제 설정과 진행 상태를 갱신합니다.
 
-저장소 이름 `group_6_library_project`는 현재 그대로 사용하고, 서비스 이름은 **못난이마켓**으로 정합니다. A·B·C의 실제 담당자 이름은 팀에서 확정합니다.
+저장소 이름은 `group_6_vegetable_project`이며, 서비스 이름은 **못난이마켓**입니다. A·B·C의 실제 담당자 이름은 팀에서 확정합니다.
 
 ## 목차
 
@@ -104,7 +104,7 @@
 | [VS Code](https://code.visualstudio.com/) | 코드 편집, 터미널, 변경 확인 | 전원 사용, 저장 시 서식 정리 |
 | [Node.js](https://nodejs.org/en/download) | Next.js 실행과 npm | 24.x LTS 주 버전 통일 |
 | [Git](https://git-scm.com/downloads) | 브랜치·커밋·동기화 | 전원 설치 |
-| [GitHub](https://github.com/KANT-2/group_6_library_project) | 저장소·PR·이슈 | 전원 저장소 접근 권한 확인 |
+| [GitHub](https://github.com/KANT-2/group_6_vegetable_project) | 저장소·PR·이슈 | 전원 저장소 접근 권한 확인 |
 | Chrome 또는 Edge | 브라우저 검수 | 개발자 도구로 모바일·통신·오류 확인 |
 | [Supabase Dashboard](https://supabase.com/dashboard) | Auth·DB·Storage 확인 | C가 초기 설정, 각자 자기 데이터 확인 |
 | [Vercel Dashboard](https://vercel.com/dashboard) | 배포와 로그 확인 | C가 초기 연결, 전원 Preview 검수 |
@@ -266,7 +266,7 @@ flowchart TD
 아래는 **구축 예정 구조**입니다. 선택 API·테스트 파일은 필요해질 때 생성하며, 현재 존재하는 파일 목록이 아닙니다.
 
 ```text
-group_6_library_project/
+group_6_vegetable_project/
 ├─ src/
 │  ├─ app/
 │  │  ├─ layout.tsx                       # A: 전체 레이아웃, C와 Provider 조율
@@ -555,8 +555,8 @@ git --version
 README가 있는 저장소 루트에 앱 생성을 무작정 실행하지 않습니다. 별도 임시 폴더에서 생성하고 필요한 앱 파일만 저장소로 옮겨 README와 `.git`을 보존합니다.
 
 ```bash
-git clone https://github.com/KANT-2/group_6_library_project.git
-cd group_6_library_project
+git clone https://github.com/KANT-2/group_6_vegetable_project.git
+cd group_6_vegetable_project
 git switch -c feat/setup
 npx create-next-app@16 ../motnani-app --typescript --tailwind --eslint --app --src-dir --use-npm --import-alias "@/*"
 ```
@@ -623,8 +623,8 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 **초기 앱 구축이 main에 합쳐진 뒤** 모든 팀원이 아래 순서로 실행합니다. 현재 README만 있는 상태에서는 `npm ci`나 앱 실행이 되지 않습니다.
 
 ```bash
-git clone https://github.com/KANT-2/group_6_library_project.git
-cd group_6_library_project
+git clone https://github.com/KANT-2/group_6_vegetable_project.git
+cd group_6_vegetable_project
 npm ci
 ```
 
