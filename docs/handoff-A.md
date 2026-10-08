@@ -1,6 +1,6 @@
 # A(조영우) 작업 정리와 인계
 
-작성 기준: 2026-10-08 · 브랜치 `feat/recipes` (`origin/main` 기준 `4ff885e`에서 시작)
+작성 기준: 2026-10-08 · 브랜치 `feat/recipes` (`origin/main`의 B PR #7 합쳐진 뒤 기준)
 
 A 담당 네 화면(메인 `/`, 농가 이야기 `/story`, 레시피 목록 `/recipes`, 레시피 상세 `/recipes/[id]`)을 PC·모바일에서 실행할 수 있게 구현했어요. 아직 PR·push는 하지 않았어요.
 
@@ -48,7 +48,7 @@ npm run format:check
 | Mock                    | `src/data/mock/recipes.ts` — 레시피 7개 (B의 Mock 상품 id와 연결: B의 PR #7 상품 16개 중 재료가 맞는 것만)                                         |
 | 설정                    | `src/lib/data-source.ts`(Mock/DB 선택), `lib/routes.ts`, `lib/storage.ts`, `lib/supabase/public.ts`                                                |
 | DB                      | `supabase/migrations/20261008000100_recipes.sql`, `supabase/seeds/recipes.sql`                                                                     |
-| 문서                    | `docs/design-guide.md`, 이 문서 (이미지 출처 표 `docs/image-sources.md`는 B가 PR #7에서 작성)                                                      |
+| 문서                    | `docs/design-guide.md`, 이 문서 (이미지 출처 표 `docs/image-sources.md`는 B가 작성)                                                                |
 
 ### 데이터 흐름
 
@@ -123,7 +123,7 @@ B의 화면이 `main`에 합쳐지면 `src/lib/routes.ts` 맨 위의 값을 `tru
 
 - **진짜 Supabase 프로젝트로는 확인하지 못했어요.** 환경변수·DB가 없어서 위처럼 가짜 서버로만 검증했어요. 실제 PostgREST의 중첩 select(`recipe_products(products(vegetables(...)))`) 응답 모양은 DB 연결 후 한 번 확인해 주세요. 어긋나면 Zod가 오류로 알려줘요.
 - 레시피 **요리 사진이 없어요.** 재료(채소) 사진이 임시로 보이고 "재료 사진 · 요리 사진 준비 중" 꼬리표로 밝혔어요. 요리 사진을 준비하면 사용 조건을 확인해 B의 `docs/image-sources.md`에 출처를 적고, Mock은 `src/data/mock/recipes.ts`에 `imageUrl: "/images/recipes/<레시피id>.jpg"`(파일은 `public/images/recipes/`), Supabase는 Storage `market-images/recipes/`에 올린 뒤 `recipes.image_path`를 채워요.
-- 상품 이미지 출처는 B의 PR #7(`docs/image-sources.md`, 17장)에 정리돼 있어요. 합쳐지기 전에는 이 저장소 `main`에 그 파일이 없어요.
+- 상품 이미지 출처는 B의 `docs/image-sources.md`에 정리돼 있어요.
 - 레시피·농가 문구는 개발용 예시예요. 레시피는 일반적인 가정식으로 새로 적었고 팀 확정 전 검수가 필요해요. 농가 이름·이야기는 B의 Mock 상품 데이터(가상)를 그대로 쓰며, 실존 농가·인증·인터뷰는 만들지 않았어요.
 - Supabase 모드에서는 `next build` 때 레시피 id 목록을 DB에서 읽어요. 빌드 환경에서 DB에 접근할 수 없으면 빌드가 실패해요. (목록에 없는 새 id는 요청 때 렌더링돼요.)
 - 레시피 상세는 진짜 404 상태 코드를 위해 `params`를 Suspense로 감싸지 않아서 `export const instant = false`로 개발용 "instant navigation" 안내를 껐어요.
