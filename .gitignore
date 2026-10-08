@@ -1,0 +1,19 @@
+# Dependencies and Next.js output
+node_modules/
+.next/
+out/
+build/
+coverage/
+
+# Local credentials and environment settings
+.env*
+!.env.example
+.vercel/
+
+# Local tooling and temporary output
+*.log
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+supabase/.temp/
+supabase/.branches/

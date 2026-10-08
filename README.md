@@ -322,7 +322,9 @@ flowchart TD
 
 ## 7. 전체 폴더 구조
 
-아래는 **구축 예정 구조**입니다. 선택 API·테스트 파일은 필요해질 때 생성하며, 현재 존재하는 파일 목록이 아닙니다.
+**2026-10-08 폴더 골격 생성:** 로컬 경로는 `C:\dev\group_6_vegetable_project`입니다. `src`·`public`·`supabase`·`docs`·`tests`·`.vscode`의 작업 폴더와 빈 폴더 보존용 `.gitkeep`, `.gitignore`를 생성했습니다. [실제 생성한 폴더와 담당 안내](docs/structure.md)를 참고합니다. 현재는 실행 코드·패키지·설정 파일이 없는 폴더 준비 단계입니다.
+
+아래는 **파일별 구축 예정 구조**입니다. `.tsx`·`.ts`·`.sql`·설정 파일은 아직 생성하지 않았고 구현 단계에서 추가합니다. 선택 API·테스트 파일은 필요할 때 생성합니다.
 
 ```text
 group_6_vegetable_project/
