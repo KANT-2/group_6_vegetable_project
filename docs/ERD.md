@@ -1,7 +1,14 @@
 # 못난이마켓 ERD (초안)
 
-> 작성일: 2026-10-07 · 상태: **초안 v3 (DB 담당 검토 전)** · v2: `products.is_featured` 추가 · v3: `products.description` 추가
+> 작성일: 2026-10-07 · 상태: **초안 v4 (DB 담당 검토 전)** · v2: `products.is_featured` 추가 · v3: `products.description` 추가
+> 수정일: 2026-10-08 · v4: 주문 생성·모의 결제·주문 내역 추가 (`orders`, `order_items`)
 > 기준 문서: 팀 개발 가이드 8장 "데이터베이스 설계"
+
+주문·모의 결제·주문 내역은 **선택 과제**예요. 기본 기능 완료 후 담당자를 지정한 경우에 구현하며, 담당자가 없는 동안은 설계안으로만 유지해요.
+
+`docs/erd.png`는 주문 테이블이 없는 **v3 참고 그림**이에요. 최신 v4 관계는 아래 Mermaid ERD와 6절 DBML 코드를 기준으로 확인해요.
+
+이번 버전의 구매 흐름은 **로그인 → 주문 생성 → 모의 결제 성공/실패 → 주문 내역 조회**예요. 모의 결제는 실제 돈이 오가지 않는 프로젝트 시연 기능이며, 화면에도 "모의 결제"라고 표시해요. 실제 PG 연동, 재고 관리, 배송 추적, 환불은 이번 범위에 포함하지 않아요.
 
 ## 1. 전체 관계도
 
@@ -15,6 +22,9 @@ erDiagram
     auth_users ||--o{ wishlist_items : ""
     products ||--o{ cart_items : ""
     products ||--o{ wishlist_items : ""
+    auth_users ||--o{ orders : "본인의 주문"
+    orders ||--|{ order_items : "주문당 상품 1개 이상"
+    products ||--o{ order_items : "판매 상품 참조"
 
     vegetables {
         text id PK "예: carrot"
@@ -93,6 +103,30 @@ erDiagram
         uuid user_id FK
         text product_id FK
         timestamptz created_at
+    }
+    orders {
+        uuid id PK
+        uuid user_id FK
+        uuid request_key "사용자별 주문 생성 중복 방지"
+        text status "pending, paid, payment_failed, cancelled"
+        bigint total_amount "상품 금액 합계, 원"
+        text recipient_name
+        text recipient_phone
+        text postal_code
+        text address
+        text address_detail
+        timestamptz paid_at "모의 결제 성공 시각"
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    order_items {
+        uuid order_id PK,FK
+        text product_id PK,FK
+        text product_name "주문 당시 상품명"
+        text product_unit "주문 당시 판매 단위"
+        int unit_price "주문 당시 단가, 원"
+        int quantity "1~99"
     }
 ```
 
@@ -218,6 +252,51 @@ erDiagram
 - `UNIQUE (user_id, product_id)`: 같은 상품을 두 번 찜할 수 없어요.
 - 인덱스: `user_id`
 
+### 2-8. `orders` 주문 (선택 과제, 착수 전 담당자 지정, 본인만 읽기)
+
+주문 상태와 받는 사람 정보를 저장해요. 배송지를 프로필과 별도로 저장하므로 이후 사용자 정보가 바뀌어도 주문 당시 배송지를 유지해요. 주문 번호는 `id`를 사용해요.
+
+| 컬럼 | 타입 | 필수 | 기본값 | 설명·제약 |
+| --- | --- | --- | --- | --- |
+| `id` | uuid | PK | `gen_random_uuid()` | 주문 식별자 |
+| `user_id` | uuid | O | | FK → `auth.users.id`, 시연 프로젝트에서는 `ON DELETE CASCADE` |
+| `request_key` | uuid | O | | 클라이언트가 새 주문마다 생성. 재전송에는 같은 값, 상품·수량·배송지 변경에는 새 값 사용 |
+| `status` | text | O | `'pending'` | `pending`, `paid`, `payment_failed`, `cancelled` 중 하나, text + CHECK |
+| `total_amount` | bigint | O | | 상품 금액 합계(원). `> 0`, 서버가 주문상품의 `unit_price × quantity` 합으로 계산 |
+| `recipient_name` | text | O | | 받는 사람 이름. 공백만 입력 불가 |
+| `recipient_phone` | text | O | | 연락처. 문자열로 저장, 서버에서 형식 검증 |
+| `postal_code` | text | O | | 우편번호. 국내 주소 기준 숫자 5자리, 앞자리 0 보존 |
+| `address` | text | O | | 기본 주소. 공백만 입력 불가 |
+| `address_detail` | text | | | 상세 주소 |
+| `paid_at` | timestamptz | | | 모의 결제 성공 시 서버에서 설정. `paid`일 때만 값 존재 |
+| `created_at` | timestamptz | O | `now()` | 주문 생성 시각 |
+| `updated_at` | timestamptz | O | `now()` | 주문 상태 변경 시 자동 갱신 |
+
+- `UNIQUE (user_id, request_key)`: 같은 사용자와 키로 요청하면 요청 내용이나 주문 상태와 관계없이 기존 주문을 반환해요. 요청 해시는 저장하지 않고 내용 차이도 비교하지 않아요. 기존 주문은 변경하지 않으며, 상품·수량·배송지를 바꿔 새로 주문할 때는 새 키를 사용해요. 취소한 주문의 키도 재사용하지 않아요.
+- 인덱스: `(user_id, created_at DESC)` — 본인 주문 내역 최신순 조회.
+- 이번 시연은 배송비 0원, 쿠폰·할인코드 없음으로 정해요. `total_amount`는 주문상품 합계와 같아요.
+- `CHECK ((status = 'paid' AND paid_at IS NOT NULL) OR (status <> 'paid' AND paid_at IS NULL))`를 적용해요.
+- 회원 탈퇴 시 주문과 배송지를 함께 삭제하는 정책은 이번 시연용이에요. 실제 서비스로 확장할 때 보존 정책을 다시 설계해요.
+
+### 2-9. `order_items` 주문상품 (선택 과제, 착수 전 담당자 지정, 본인 주문만 읽기)
+
+가격과 상품명이 바뀌거나 상품 판매가 종료돼도 주문 내역을 유지하기 위한 **주문 당시 정보**예요. 화면은 `products`와의 조인 없이 이 테이블로 상품명·판매 단위·가격을 표시해요.
+
+| 컬럼 | 타입 | 필수 | 설명·제약 |
+| --- | --- | --- | --- |
+| `order_id` | uuid | PK, FK | → `orders.id`, `ON DELETE CASCADE` |
+| `product_id` | text | PK, FK | → `products.id`, `ON DELETE RESTRICT` |
+| `product_name` | text | O | 주문 생성 시 `products.name` 복사 |
+| `product_unit` | text | O | 주문 생성 시 `products.unit` 복사. 예: 1kg |
+| `unit_price` | integer | O | 주문 생성 시 `products.price` 복사. `> 0` |
+| `quantity` | integer | O | `BETWEEN 1 AND 99` |
+
+- `PRIMARY KEY (order_id, product_id)`: 한 주문에서 같은 상품은 한 줄로 합쳐요.
+- 인덱스: `product_id` — 상품 FK 조회·삭제 검사에 사용.
+- 행 금액은 `unit_price::bigint × quantity`로 계산하며 별도 저장하지 않아요.
+- 주문 생성 후 상품·수량·단가·배송지는 변경하지 않아요. 수정하려면 미결제 주문을 취소하고 새로 주문해요.
+- 판매 종료는 기존 정책대로 `products.is_active = false`로 처리해요. 주문상품에서 참조한 상품은 물리 삭제할 수 없어요.
+
 ## 3. 접근 권한 (RLS) 요약
 
 | 테이블 | 읽기 | 쓰기 (추가·수정·삭제) |
@@ -226,6 +305,23 @@ erDiagram
 | `profiles` | 본인만 (`id = auth.uid()`) | 본인만 추가·수정, 삭제 없음 |
 | `cart_items` | 본인만 (`user_id = auth.uid()`) | 본인만 추가·수정·삭제 |
 | `wishlist_items` | 본인만 (`user_id = auth.uid()`) | 본인만 추가·삭제 |
+| `orders` | 본인만 (`user_id = auth.uid()`) | 일반 사용자 직접 쓰기 불가. 인증된 서버 또는 제한된 RPC에서만 생성·상태 변경 |
+| `order_items` | 연결된 `orders.user_id = auth.uid()`인 행만 | 일반 사용자 직접 쓰기 불가. 주문 생성 트랜잭션에서만 추가 |
+
+- 신규 두 테이블 모두 RLS를 활성화하고, 일반 사용자에게는 위 SELECT 정책만 허용해요. 기존 일반 사용자 쓰기 정책을 그대로 복사하지 않아요.
+- 주문 RPC를 사용한다면 호출 대상은 `authenticated`로 제한하고, 로그인 여부와 주문 소유권을 함수 내부에서도 확인해요. `user_id`는 클라이언트 입력을 받지 않고 `auth.uid()`에서 정해요.
+- 서버의 특권 DB 연결은 RLS를 우회할 수 있으므로 서버에서도 검증된 로그인 사용자와 주문 소유권을 확인해야 해요.
+- 사용자에게 상품명·단가·총액·`status`·`paid_at`을 직접 지정하거나 변경할 권한을 주지 않아요.
+
+### 3-1. 주문 생성·모의 결제 처리 규칙
+
+1. **주문 생성**: 상품 ID와 수량, 배송지, `request_key`만 받아요. 서버/DB 함수는 로그인 사용자와 키 형식을 검증한 뒤 같은 사용자·키의 기존 주문이 있으면 즉시 반환해요. 새 키일 때만 주문 입력을 검증하고, 중복 상품 ID는 수량을 합산해 1~99인지 확인해요. `is_active = true`인 상품의 현재 이름·단위·가격을 DB에서 읽어 주문 당시 정보로 저장해요.
+2. **트랜잭션**: 상품을 읽어 저장하는 동안 변경되지 않도록 잠금 등으로 일관성을 보장해요. 주문상품 1개 이상, 서버가 계산한 총액, 주문 헤더와 주문상품 저장을 한 트랜잭션으로 처리해요. 실패하면 전부 롤백해요. 총액과 상품 개수는 다른 테이블을 참조하므로 일반 CHECK만으로 보장할 수 없고 생성 함수에서 검증해요. 중복 요청은 UNIQUE 제약과 충돌 처리를 통해 기존 주문을 반환해요.
+3. **모의 결제 성공**: 본인 주문의 상태를 잠그고 확인한 뒤 `pending → paid`로만 변경하고 `paid_at`을 설정해요. 이미 `paid`면 기존 성공 결과를 반환해요. `payment_failed` 상태에서는 먼저 4번의 재시도를 시작해야 하며, `cancelled` 상태에서는 결제할 수 없어요. 주문 생성 때 확정한 단가로 처리해요.
+4. **모의 결제 실패·재시도**: 실패는 `pending → payment_failed`로 변경해요. 재시도는 반드시 `payment_failed → pending`으로 시작하고, 이후 성공하면 3번에 따라 `pending → paid`, 실패하면 다시 `pending → payment_failed`로 처리해요. 성공·실패·취소 처리 모두 같은 주문 행을 잠그거나 조건부 UPDATE로 처리해 동시 요청이 완료 상태를 덮어쓰지 못하게 해요. 실패는 `paid` 주문을 변경하지 않아요.
+5. **취소**: `pending` 또는 `payment_failed`에서만 `cancelled`로 변경해요. `paid`와 `cancelled`는 이번 범위의 최종 상태예요. 결제 후 취소·환불은 구현하지 않아요.
+6. **장바구니**: 이번 버전에서는 주문·결제 처리로 장바구니를 자동 삭제하지 않아요. 주문 중 추가·수정한 상품이 사라지는 상황을 피하고, 사용자가 직접 장바구니를 정리해요.
+7. **주문 내역**: 본인 주문과 주문 당시 상품 정보를 최신순으로 보여줘요. `paid`의 표시 문구는 "모의 결제 완료"로 해요. 판매 종료 상품도 주문상품의 저장된 정보로 표시할 수 있어요.
 
 ## 4. 초기 데이터 ID (seed 기준)
 
@@ -248,6 +344,8 @@ erDiagram
 | `products` | `description`, `is_featured`, `created_at`, `updated_at` | 평가표 필수 속성(설명), 메인 추천 상품 선택, 최신순 정렬, 수정 기록 |
 | `recipes` | `cook_time_min`, `difficulty`, `servings`, `created_at` | 레시피 카드의 "15분 · 쉬움" 표시 (목업 기준) |
 | `profiles` | `created_at` | 가입 시각 기록 |
+| `orders` (신규) | 전체 컬럼 | 주문 상태, 중복 요청 방지, 주문 총액, 배송지, 모의 결제 시각 |
+| `order_items` (신규) | 전체 컬럼 | 주문 당시 상품명·판매 단위·단가·수량 기록 |
 
 ## 5. 정해야 할 것 (DB 담당과 확인)
 
@@ -255,10 +353,15 @@ erDiagram
 - [ ] `updated_at` 자동 갱신 트리거를 넣을지
 - [ ] 회원가입 시 `profiles`를 **트리거로 자동 생성**할지, 첫 로그인 때 서버에서 생성할지
 - [ ] 장바구니 수량 합산을 RPC 함수로 처리할지 (동시에 담을 때 수량 유실 방지)
+- [ ] 선택 과제에 착수할 경우 주문·주문상품 및 모의 결제 기능 담당자를 먼저 지정하기
+- [ ] 인증된 서버 API 또는 제한된 RPC 중 주문 처리 방식 정하기 (트랜잭션·소유권 검사 필수)
+- [ ] 주문 생성 중복 요청, 동시 모의 결제, 잘못된 금액 입력, 타인 주문 접근을 검증하기
+- [x] 구매 범위: 주문 생성·모의 결제·주문 내역, 배송비 0원
+- [x] 주문 `status`: text + CHECK, 신규 `orders.updated_at`: 자동 갱신 트리거
 
 ## 6. dbdiagram.io용 코드
 
-[dbdiagram.io](https://dbdiagram.io)에 아래 코드를 붙여 넣으면 ERD 그림을 바로 볼 수 있어요.
+[dbdiagram.io](https://dbdiagram.io)에 아래 코드를 붙여 넣으면 ERD 그림을 바로 볼 수 있어요. 아래 `note`는 설명이며 실행되는 CHECK 제약이 아니에요. 실제 migration에는 본문의 CHECK·RLS·트랜잭션 규칙을 별도로 구현해야 해요.
 
 ```dbml
 Table vegetables {
@@ -348,4 +451,42 @@ Table wishlist_items {
     (user_id, product_id) [unique]
   }
 }
+
+Table orders {
+  id uuid [pk, default: `gen_random_uuid()`]
+  user_id uuid [not null]
+  request_key uuid [not null, note: '사용자별 주문 생성 중복 방지']
+  status text [not null, default: 'pending', note: 'pending, paid, payment_failed, cancelled']
+  total_amount bigint [not null, note: '> 0, 주문상품 금액 합계, 배송비 0원']
+  recipient_name text [not null]
+  recipient_phone text [not null]
+  postal_code text [not null, note: '국내 우편번호 숫자 5자리']
+  address text [not null]
+  address_detail text
+  paid_at timestamptz [note: '모의 결제 성공 시각, paid 상태일 때만 값 존재']
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`, note: '자동 갱신 트리거']
+  indexes {
+    (user_id, request_key) [unique]
+    (user_id, created_at) [note: '실제 SQL에서는 created_at DESC']
+  }
+}
+
+Table order_items {
+  order_id uuid [not null]
+  product_id text [not null]
+  product_name text [not null, note: '주문 당시 상품명']
+  product_unit text [not null, note: '주문 당시 판매 단위']
+  unit_price int [not null, note: '주문 당시 단가, > 0']
+  quantity int [not null, note: '1~99']
+  indexes {
+    (order_id, product_id) [pk]
+    product_id
+  }
+}
+
+Ref: orders.user_id > auth_users.id [delete: cascade]
+Ref: order_items.order_id > orders.id [delete: cascade]
+Ref: order_items.product_id > products.id [delete: restrict]
+
 ```
