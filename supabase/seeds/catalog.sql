@@ -1,7 +1,8 @@
 begin;
 -- =========================================================
 -- B · 상품·채소 초기 데이터 (seed)
--- 원본: src/data/mock/vegetables.ts, products.ts (변환기로 자동 생성)
+-- 원본: B가 제공한 catalog_seed.sql (feat/useob의 src/data/mock 기준)
+-- main의 기존 Mock 6개와 다릅니다. B의 데이터 PR 병합 후 일치합니다.
 -- 채소 12개, 상품 16개
 -- 농가 이름·가격·보관법 문구는 시연용 가상 데이터입니다.
 -- 여러 번 실행해도 중복되지 않도록 id 기준으로 덮어써요(upsert).
