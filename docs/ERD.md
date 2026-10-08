@@ -1,12 +1,14 @@
-# 못난이마켓 ERD (초안)
+# 못난이이야기 ERD (적용 스키마)
 
-> 작성일: 2026-10-07 · 상태: **초안 v4 (DB 담당 검토 전)** · v2: `products.is_featured` 추가 · v3: `products.description` 추가
-> 수정일: 2026-10-08 · v4: 주문 생성·모의 결제·주문 내역 추가 (`orders`, `order_items`)
+> 작성일: 2026-10-07 · 상태: **v5 (공통 테이블·제약·RLS 적용 완료)** · v2: `products.is_featured` 추가 · v3: `products.description` 추가
+> 수정일: 2026-10-08 · v4: 주문 테이블 설계 추가 · v5: 실제 migration·Storage·DB 타입 적용 상태와 관계·제약 반영
 > 기준 문서: 팀 개발 가이드 8장 "데이터베이스 설계"
 
-주문·모의 결제·주문 내역은 **선택 과제**예요. 기본 기능 완료 후 담당자를 지정한 경우에 구현하며, 담당자가 없는 동안은 설계안으로만 유지해요.
+전체 테이블 생성·제약 조건·RLS·migration은 **C 이상재**가 일괄 담당해요. A는 레시피, B는 상품·채소의 컬럼 검토·seed·조회 함수·화면을 맡아요. 2026-10-08 실제 공유 DB에 9개 테이블과 RLS·B의 채소 12개·상품 16개를 적용했어요. 주문·모의 결제·주문 내역 처리 함수와 화면은 별도 구현 범위예요. [DB 구성과 적용 기록](database.md)을 참고해요.
 
-`docs/erd.png`는 주문 테이블이 없는 **v3 참고 그림**이에요. 최신 v4 관계는 아래 Mermaid ERD와 6절 DBML 코드를 기준으로 확인해요.
+`docs/erd.png`는 주문 테이블이 없는 **v3 참고 그림**이에요. 최신 v5 관계는 아래 Mermaid ERD와 6절 DBML 코드를 기준으로 확인해요.
+
+DB 구조의 기준은 `supabase/migrations`예요. Storage는 `202610080003_storage.sql`로 적용했고 DB 타입은 `src/types/database.ts`로 생성했어요. 채소 이름은 공백만 입력할 수 없고 1~50자, 상품 이름은 공백만 입력할 수 없고 1~100자예요. 레시피 servings는 값이 있으면 양수, ingredients·steps는 JSON 배열이어야 해요.
 
 이번 버전의 구매 흐름은 **로그인 → 주문 생성 → 모의 결제 성공/실패 → 주문 내역 조회**예요. 모의 결제는 실제 돈이 오가지 않는 프로젝트 시연 기능이며, 화면에도 "모의 결제"라고 표시해요. 실제 PG 연동, 재고 관리, 배송 추적, 환불은 이번 범위에 포함하지 않아요.
 
@@ -17,13 +19,13 @@ erDiagram
     vegetables ||--o{ products : "채소 1개 : 상품 여러 개"
     products ||--o{ recipe_products : ""
     recipes ||--o{ recipe_products : ""
-    auth_users ||--|| profiles : "사용자 1명 : 프로필 1개"
+    auth_users ||--o| profiles : "첫 프로필 조회 시 생성"
     auth_users ||--o{ cart_items : ""
     auth_users ||--o{ wishlist_items : ""
     products ||--o{ cart_items : ""
     products ||--o{ wishlist_items : ""
     auth_users ||--o{ orders : "본인의 주문"
-    orders ||--|{ order_items : "주문당 상품 1개 이상"
+    orders ||--o{ order_items : "생성 함수에서 1개 이상 보장 예정"
     products ||--o{ order_items : "판매 상품 참조"
 
     vegetables {
@@ -130,11 +132,11 @@ erDiagram
     }
 ```
 
-`auth_users`는 우리가 만드는 테이블이 아니라 **Supabase Auth가 자동으로 관리하는 `auth.users`**예요. 그림에서 관계를 보여주려고 넣었어요.
+`auth_users`는 우리가 만드는 테이블이 아니라 **Supabase Auth가 자동으로 관리하는 `auth.users`**예요. 그림에서 관계를 보여주려고 넣었어요. 프로필은 첫 조회 전에는 없을 수 있어요. 현재 FK만으로 주문상품 1개 이상을 보장하지 않으므로 주문 생성 함수에서 추가 검증해야 해요.
 
 ## 2. 테이블별 컬럼 상세
 
-### 2-1. `vegetables` 채소 정보 (담당: B, 누구나 읽기)
+### 2-1. `vegetables` 채소 정보 (테이블: C, 기능·데이터: B, 누구나 읽기)
 
 "당근"이라는 채소 자체의 정보예요. 특정 농가의 판매 상품과는 구분해요.
 
@@ -150,7 +152,7 @@ erDiagram
 | `image_path` | text | | | Storage 상대 경로. 예: `vegetables/carrot.jpg` |
 | `created_at` | timestamptz | O | `now()` | |
 
-### 2-2. `products` 판매 상품 (담당: B, 누구나 읽기)
+### 2-2. `products` 판매 상품 (테이블: C, 기능·데이터: B, 판매 중 상품 읽기)
 
 특정 농가가 파는 "못난이 당근 1kg" 같은 실제 판매 상품이에요.
 
@@ -179,7 +181,7 @@ erDiagram
 - 인덱스: `vegetable_id`, `is_active`
 - 카테고리 필터는 `vegetables.category`에 있으므로 `products`와 `vegetables`를 연결(join)해서 조회해요.
 
-### 2-3. `recipes` 레시피 (담당: A, 누구나 읽기)
+### 2-3. `recipes` 레시피 (테이블: C, 기능·데이터: A, 누구나 읽기)
 
 | 컬럼 | 타입 | 필수 | 기본값 | 설명·제약 |
 | --- | --- | --- | --- | --- |
@@ -204,7 +206,7 @@ erDiagram
 }
 ```
 
-### 2-4. `recipe_products` 레시피와 판매 상품 연결 (담당: A, 누구나 읽기)
+### 2-4. `recipe_products` 레시피와 판매 상품 연결 (테이블: C, 기능·데이터: A, 누구나 읽기)
 
 레시피 상세에서 "이 요리에 쓸 수 있는 상품"을 보여주기 위한 연결표예요. 판매하지 않는 재료(올리브유 등)는 `ingredients`에만 적어요.
 
@@ -252,7 +254,7 @@ erDiagram
 - `UNIQUE (user_id, product_id)`: 같은 상품을 두 번 찜할 수 없어요.
 - 인덱스: `user_id`
 
-### 2-8. `orders` 주문 (선택 과제, 착수 전 담당자 지정, 본인만 읽기)
+### 2-8. `orders` 주문 (테이블: C, 주문 기능 별도 구현, 본인만 읽기)
 
 주문 상태와 받는 사람 정보를 저장해요. 배송지를 프로필과 별도로 저장하므로 이후 사용자 정보가 바뀌어도 주문 당시 배송지를 유지해요. 주문 번호는 `id`를 사용해요.
 
@@ -278,7 +280,7 @@ erDiagram
 - `CHECK ((status = 'paid' AND paid_at IS NOT NULL) OR (status <> 'paid' AND paid_at IS NULL))`를 적용해요.
 - 회원 탈퇴 시 주문과 배송지를 함께 삭제하는 정책은 이번 시연용이에요. 실제 서비스로 확장할 때 보존 정책을 다시 설계해요.
 
-### 2-9. `order_items` 주문상품 (선택 과제, 착수 전 담당자 지정, 본인 주문만 읽기)
+### 2-9. `order_items` 주문상품 (테이블: C, 주문 기능 별도 구현, 본인 주문만 읽기)
 
 가격과 상품명이 바뀌거나 상품 판매가 종료돼도 주문 내역을 유지하기 위한 **주문 당시 정보**예요. 화면은 `products`와의 조인 없이 이 테이블로 상품명·판매 단위·가격을 표시해요.
 
@@ -325,7 +327,7 @@ erDiagram
 
 ## 4. 초기 데이터 ID (seed 기준)
 
-준비된 사진(`docs/photos/`)에 맞춘 초기 ID 제안이에요.
+아래는 초기 사진(`docs/photos/`)에 맞춘 6개 ID 참고표예요. 실제 적용 데이터는 `supabase/seeds/catalog.sql`의 채소 12개·상품 16개이며 아래 표가 전체 목록은 아니에요. 실제 Storage 이미지 업로드는 아직 완료하지 않았어요.
 
 | 채소 `vegetables.id` | 상품 `products.id` | 못난이 사유 | 메인 추천 `is_featured` | 사진 |
 | --- | --- | --- | --- | --- |
@@ -349,11 +351,11 @@ erDiagram
 
 ## 5. 정해야 할 것 (DB 담당과 확인)
 
-- [ ] `category`, `ugly_reason`, `difficulty`를 **text + CHECK 제약**으로 할지, **PostgreSQL enum 타입**으로 할지
-- [ ] `updated_at` 자동 갱신 트리거를 넣을지
-- [ ] 회원가입 시 `profiles`를 **트리거로 자동 생성**할지, 첫 로그인 때 서버에서 생성할지
+- [x] `category`, `ugly_reason`, `difficulty`: text + CHECK 제약으로 구현
+- [x] `updated_at`: profiles·products·cart_items·orders에 자동 갱신 트리거 구현
+- [x] profiles: 첫 프로필 조회 시 서버에서 생성하도록 구현
 - [ ] 장바구니 수량 합산을 RPC 함수로 처리할지 (동시에 담을 때 수량 유실 방지)
-- [ ] 선택 과제에 착수할 경우 주문·주문상품 및 모의 결제 기능 담당자를 먼저 지정하기
+- [x] 전체 테이블·제약·RLS·migration 담당: C 이상재. 주문 처리 함수·화면은 별도 구현
 - [ ] 인증된 서버 API 또는 제한된 RPC 중 주문 처리 방식 정하기 (트랜잭션·소유권 검사 필수)
 - [ ] 주문 생성 중복 요청, 동시 모의 결제, 잘못된 금액 입력, 타인 주문 접근을 검증하기
 - [x] 구매 범위: 주문 생성·모의 결제·주문 내역, 배송비 0원
@@ -366,7 +368,7 @@ erDiagram
 ```dbml
 Table vegetables {
   id text [pk, note: 'carrot']
-  name text [not null]
+  name text [not null, note: '공백만 불가, 1~50자']
   category text [not null, note: 'root, leaf, fruit_veg, mushroom, fruit, seasoning']
   description text [not null]
   storage_guide text
@@ -379,7 +381,7 @@ Table vegetables {
 Table products {
   id text [pk, note: 'carrot-bent-1kg']
   vegetable_id text [not null, ref: > vegetables.id]
-  name text [not null]
+  name text [not null, note: '공백만 불가, 1~100자']
   price int [not null, note: '> 0']
   original_price int [not null, note: '>= price']
   unit text [not null]
@@ -424,7 +426,7 @@ Table auth_users {
 }
 
 Table profiles {
-  id uuid [pk, ref: - auth_users.id]
+  id uuid [pk, ref: - auth_users.id, note: '첫 프로필 조회 시 생성, 사용자당 0~1개']
   nickname text [not null, note: '2~20자']
   created_at timestamptz [not null, default: `now()`]
   updated_at timestamptz [not null, default: `now()`]

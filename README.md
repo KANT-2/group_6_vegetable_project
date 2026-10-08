@@ -6,7 +6,7 @@
 
 **문서 기준일: 2026-10-07 / 팀 구성: A·B·C, 총 3명 / 백엔드: FastAPI 없이 Next.js로 구성**
 
-**현재 상태:** 이 README는 개발 계획과 협업 기준입니다. 문서 작성 시 저장소에는 애플리케이션 코드가 없었습니다. 아래 폴더·DB·함수·실행 명령은 구축할 구조이며, 기능 구현이나 배포 완료를 의미하지 않습니다. 초기 환경 구축 후 실제 설정과 진행 상태를 갱신합니다.
+**현재 상태:** Next.js 공통 설정과 Supabase 연결·세션 갱신·로그인·로그아웃·프로필 서버 처리를 추가했습니다. 2026-10-08 실제 Supabase 프로젝트에 9개 테이블·RLS·B의 채소 12개·상품 16개를 적용하고 공개 조회와 비로그인 개인 데이터 접근 차단을 확인했습니다. 프론트 화면·공통 layout, 실제 계정 로그인·두 계정 간 RLS 연동 검증 및 배포는 미완료입니다. 아래 전체 기능은 개발 계획이며 구현 완료를 뜻하지 않습니다. [백엔드 연결 안내](docs/backend.md), [DB 적용 기록](docs/database.md)을 참고합니다.
 
 저장소 이름은 `group_6_vegetable_project`이며, 서비스 이름은 **못난이마켓**입니다. 담당자는 A 조영우, B 심우섭, C 이상재입니다.
 
@@ -196,11 +196,11 @@ flowchart TD
 
 | 담당 | 페이지 수 | 프론트 범위, 모바일 포함 | 직접 소유하는 백엔드 |
 |---|---:|---|---|
-| A | 4 | 메인·이야기·레시피 목록·상세, 디자인 규칙 | 레시피 조회·연결·데이터·읽기 권한 |
-| B | 3 | 상품·채소 정보 | 상품·채소 조회·필터·데이터·읽기 권한 |
-| C | 3 | 로그인·마이페이지·장바구니·찜 통합, 공통 메뉴 | 인증·프로필·장바구니·찜·개인 접근 권한 |
+| A | 4 | 메인·이야기·레시피 목록·상세, 디자인 규칙 | 레시피 조회·연결·예시 데이터·컬럼 검토 |
+| B | 3 | 상품·채소 정보 | 상품·채소 조회·필터·예시 데이터·컬럼 검토 |
+| C | 3 | 로그인·마이페이지·장바구니·찜 통합, 공통 메뉴 | 전체 테이블·제약·RLS·migration, 인증·개인 기능 |
 
-**A 4 / B 3 / C 3페이지**로 배분하고, 같은 기능의 목록·상세·데이터는 한 사람이 끝까지 맡습니다. A가 레시피 목록·상세·조회·DB를 모두 담당합니다. A의 공통 작업 부담은 레시피를 나누는 대신 C가 전체 레이아웃·Header·Footer·모바일 메뉴를 맡아 줄입니다. 로그인 상태·장바구니 수 표시도 C 안에서 함께 연결합니다. 색상·글자·여백 규칙은 A가 정하고 전원이 사용합니다.
+**A 4 / B 3 / C 3페이지**로 배분하고, 같은 기능의 목록·상세·조회·예시 데이터는 한 사람이 끝까지 맡습니다. DB 테이블 생성·제약 조건·RLS·공통 migration 작성 및 적용은 C 이상재가 일괄 담당합니다. A는 레시피, B는 상품·채소의 컬럼을 검토하고 자기 조회 함수·seed·화면을 구현합니다. C는 전체 레이아웃·Header·Footer·모바일 메뉴와 로그인 상태·장바구니 수 표시도 맡습니다. 색상·글자·여백 규칙은 A가 정하고 전원이 사용합니다.
 
 Supabase가 인증 서비스를 제공해도 세션·개인 권한·저장 실패·중복 요청 처리는 C의 개발 작업입니다. C가 빈 역할이라는 뜻은 아니며, 페이지 수만으로 공정성을 판단하지 않습니다. 이 배분은 팀원의 숙련도가 아직 정해지지 않은 상태의 시작안이고 실제 소요 시간을 보고 조정합니다.
 
@@ -220,7 +220,7 @@ Supabase가 인증 서비스를 제공해도 세션·개인 권한·저장 실�
 
 **프론트:** 메인, 이야기, 레시피 목록·상세, 색상·글자·여백 규칙. 메인의 이야기·상품·레시피·채소 정보 진입 영역을 구성하고 B의 채소 ID·조회 데이터로 선택 링크를 연결. 메인 세로 배치·레시피 목록 그리드·상세의 재료와 조리 순서도 A가 모바일까지 구현.
 
-**백엔드:** `getRecipes`, `getRecipe`, `getRecipesByProduct`, `getRecipesByVegetable`; 레시피 테이블과 상품 연결 테이블, 공개 읽기 정책, 예시 데이터.
+**백엔드:** `getRecipes`, `getRecipe`, `getRecipesByProduct`, `getRecipesByVegetable`; 레시피·상품 연결 컬럼 검토와 예시 데이터. 테이블 생성·제약·공개 읽기 정책은 C의 공통 migration을 사용합니다.
 
 **기타:** 브랜드·요리 이미지 업로드와 출처 정리. README와 발표는 각자 자기 부분을 작성하고 검토하며 A에게 전체 작성·취합을 몰지 않습니다.
 
@@ -230,7 +230,7 @@ Supabase가 인증 서비스를 제공해도 세션·개인 권한·저장 실�
 
 **프론트:** 상품 목록·상세, 채소 정보 상세, ProductCard·필터·수량 선택. 모바일 2열 목록·필터 패널·세로 상세·하단 담기 영역까지 B가 구현. 하단 영역 안의 저장 버튼은 C의 공통 버튼을 사용.
 
-**백엔드:** `getProducts`, `getProduct`, `getVegetable`, `getProductsByVegetable`; 상품·채소 테이블, 가격·카테고리·상태 검증, 예시 데이터와 공개 읽기 정책.
+**백엔드:** `getProducts`, `getProduct`, `getVegetable`, `getProductsByVegetable`; 상품·채소 컬럼 검토, 조회 입력의 가격·카테고리·상태 검증, 예시 데이터. 테이블 생성·DB 제약·공개 읽기 정책은 C의 공통 migration을 사용합니다.
 
 **기타:** 상품·채소 이미지 업로드, 이미지 원본 출처, 가격 표시 함수, 초기 데이터와 화면 데이터 매핑. Vercel 연결·배포 실행을 B가 맡고 인증·환경변수 검수는 C와 함께 진행.
 
@@ -242,7 +242,7 @@ Supabase가 인증 서비스를 제공해도 세션·개인 권한·저장 실�
 
 **프론트:** 로그인, 마이페이지, 장바구니·찜 통합 화면, 전체 레이아웃·Header·Footer·모바일 메뉴·공통 UI, 담기·찜 공통 버튼, 헤더의 로그인 상태·개인 상품 수 갱신. A가 정한 디자인 규칙으로 공통 컴포넌트를 구현하고 모바일 메뉴·장바구니 카드·입력 키보드·저장 결과 안내를 함께 처리.
 
-**백엔드:** 로그인·로그아웃·사용자 확인, 프로필 조회·수정, 장바구니·찜 조회·추가·수정·삭제, Zod 검증과 사용자별 RLS.
+**백엔드:** 전체 공통 테이블·외래 키·인덱스·제약·RLS·migration 작성 및 적용, 로그인·로그아웃·사용자 확인, 프로필 조회·수정, 장바구니·찜 조회·추가·수정·삭제, Zod 검증. 주문·주문상품 스키마도 C가 준비하며 주문 생성·모의 결제 처리 함수는 별도 구현합니다.
 
 **기타:** Supabase 연결·세션·환경변수, 초기 패키지 설정, Storage 공통 정책, DB 적용 순서·타입 생성, 배포 인증 검수. Vercel 연결과 배포 실행은 B가 지원.
 
@@ -252,9 +252,9 @@ Supabase가 인증 서비스를 제공해도 세션·개인 권한·저장 실�
 
 - `layout.tsx`·Header·Footer·모바일 메뉴·Provider 연결은 C. A는 디자인 규칙을 제공하고 공통 컴포넌트의 최종 코드 담당은 C로 통일.
 - `package.json`, lockfile, Supabase 연결 파일은 C. 패키지 추가 요청은 C와 먼저 합의.
-- 각자 자기 SQL에 권한 정책까지 작성. C가 전체 인증·권한 연동을 검토.
+- 공통 테이블·제약·RLS·migration 작성과 공유 DB 적용은 C로 통일합니다. A·B는 자기 컬럼을 검토하고 seed·조회 함수·화면을 작성하며 같은 테이블을 중복 생성하지 않습니다.
 - 데이터 필드·함수 반환 형식 변경은 사용하는 사람에게 알리고 문서와 함께 수정.
-- 레시피 목록·상세·컴포넌트·조회 함수·DB는 모두 A. 상품과 연결하는 ID·조회 결과 형식만 B와 합의.
+- 레시피 목록·상세·컴포넌트·조회 함수·seed는 A. 테이블·제약·RLS는 C의 공통 migration을 사용하고, 상품과 연결하는 ID·조회 결과 형식은 B와 합의.
 - A의 `RecipeCard`, B의 `ProductCard`는 담당자가 모바일까지 구현. 다른 페이지 담당자는 공통 카드를 재사용하고 각자 주변 레이아웃을 조정.
 - 각자 자기 README 항목·캡처·발표 설명을 작성. 공통 문구 변경은 PR에서 함께 검토.
 - 담당자: A 조영우, B 심우섭, C 이상재. 공통 작업은 세 사람이 함께 담당.
@@ -325,9 +325,9 @@ flowchart TD
 
 ## 7. 전체 폴더 구조
 
-**2026-10-08 폴더 골격 생성:** 로컬 경로는 `C:\dev\group_6_vegetable_project`입니다. `src`·`public`·`supabase`·`docs`·`tests`·`.vscode`의 작업 폴더와 빈 폴더 보존용 `.gitkeep`, `.gitignore`를 생성했습니다. [실제 생성한 폴더와 담당 안내](docs/structure.md)를 참고합니다. 현재는 실행 코드·패키지·설정 파일이 없는 폴더 준비 단계입니다.
+**2026-10-08 기반 구성:** 로컬 경로는 `C:\dev\group_6_vegetable_project`입니다. 폴더 골격에 Next.js 설정·패키지와 Supabase 연결·인증·프로필 서버 처리를 추가했습니다. [폴더와 담당 안내](docs/structure.md), [현재 백엔드 실행·연결 방법](docs/backend.md)을 참고합니다. 프론트 페이지·공통 layout은 아직 구현 전입니다.
 
-아래는 **파일별 구축 예정 구조**입니다. `.tsx`·`.ts`·`.sql`·설정 파일은 아직 생성하지 않았고 구현 단계에서 추가합니다. 선택 API·테스트 파일은 필요할 때 생성합니다.
+아래는 **최종 구축 목표 구조**입니다. 일부 서버 `.ts`·프로필 migration·설정 파일은 생성했으며, 나머지 페이지·기능은 구현 단계에서 추가합니다. 현재 생성된 파일과 함수는 백엔드 안내를 기준으로 확인합니다.
 
 ```text
 group_6_vegetable_project/
@@ -408,10 +408,8 @@ group_6_vegetable_project/
 ├─ supabase/
 │  ├─ config.toml                        # C: CLI·seed 경로
 │  ├─ migrations/
-│  │  ├─ <timestamp>_catalog.sql          # B: 채소·상품·읽기 권한
-│  │  ├─ <timestamp>_recipes.sql          # A: 레시피·연결·읽기 권한
-│  │  ├─ <timestamp>_profiles.sql         # C: 프로필·본인 권한
-│  │  ├─ <timestamp>_shopping.sql         # C: 장바구니·찜·본인 권한
+│  │  ├─ 202610080001_profiles.sql        # C: 프로필·본인 권한
+│  │  ├─ 202610080002_market_tables.sql   # C: 상품·레시피·장바구니·찜·주문·권한
 │  │  └─ <timestamp>_storage.sql          # C: bucket·Storage 정책
 │  └─ seeds/
 │     ├─ catalog.sql                     # B
@@ -444,21 +442,21 @@ Next.js 15 이하를 사용하게 된다면 `proxy.ts` 대신 `middleware.ts`가
 
 ## 8. 데이터베이스 설계
 
-전체 관계도·컬럼 제약·접근 권한은 [docs/ERD.md](docs/ERD.md)를 기준으로 확인합니다. v4에는 선택 과제인 주문 생성·모의 결제·주문 내역 설계가 추가되었으며, 실제 migration과 기능 코드는 담당자를 지정한 뒤 구현합니다. `docs/erd.png`는 주문 테이블이 없는 v3 참고 그림이며 최신 관계는 ERD 문서의 Mermaid와 DBML을 기준으로 확인합니다.
+전체 관계도·컬럼 제약·접근 권한은 [docs/ERD.md](docs/ERD.md)를 기준으로 확인합니다. C 이상재가 migration 2개로 주문·주문상품을 포함한 9개 테이블의 생성·제약·RLS를 구성하고 실제 공유 DB에 적용했습니다. 주문 생성·모의 결제 처리 함수는 별도 구현 범위입니다. 적용 기록과 권한은 [DB 구성 안내](docs/database.md)를 참고합니다. `docs/erd.png`는 주문 테이블이 없는 v3 참고 그림이며 최신 관계는 ERD 문서의 Mermaid와 DBML을 기준으로 확인합니다.
 
 ### 기본 테이블
 
-| 테이블 | 주요 필드 | 담당 |
+| 테이블 | 주요 필드 | 테이블 생성 / 기능·데이터 담당 |
 |---|---|---|
-| `vegetables` | `id`, `name`, `category`, `description`, `storage_guide`, `prep_guide`, `image_path` | B |
-| `products` | `id`, `vegetable_id`, `name`, `price`, `original_price`, `unit`, `ugly_reason`, `condition_note`, `farm_name`, `farm_region`, `farm_story`, `image_path`, `is_seasonal`, `is_active` | B |
-| `recipes` | `id`, `name`, `description`, `ingredients` JSONB, `steps` JSONB, `image_path` | A |
-| `recipe_products` | `recipe_id`, `product_id` | A |
+| `vegetables` | `id`, `name`, `category`, `description`, `storage_guide`, `prep_guide`, `image_path` | C / B |
+| `products` | `id`, `vegetable_id`, `name`, `price`, `original_price`, `unit`, `ugly_reason`, `condition_note`, `farm_name`, `farm_region`, `farm_story`, `image_path`, `is_seasonal`, `is_active` | C / B |
+| `recipes` | `id`, `name`, `description`, `ingredients` JSONB, `steps` JSONB, `image_path` | C / A |
+| `recipe_products` | `recipe_id`, `product_id` | C / A |
 | `profiles` | `id` = Auth 사용자 UUID, `nickname`, `updated_at` | C |
 | `cart_items` | `id`, `user_id`, `product_id`, `quantity`, `created_at`, `updated_at` | C |
 | `wishlist_items` | `id`, `user_id`, `product_id`, `created_at` | C |
-| `orders` | `id`, `user_id`, `request_key`, `status`, `total_amount`, 받는 사람·배송지, `paid_at`, 생성·수정 시각 | 선택 과제, 착수 전 담당자 지정 |
-| `order_items` | `order_id`, `product_id`, 주문 당시 `product_name`, `product_unit`, `unit_price`, `quantity` | 선택 과제, 착수 전 담당자 지정 |
+| `orders` | `id`, `user_id`, `request_key`, `status`, `total_amount`, 받는 사람·배송지, `paid_at`, 생성·수정 시각 | C, 주문 기능은 별도 구현 |
+| `order_items` | `order_id`, `product_id`, 주문 당시 `product_name`, `product_unit`, `unit_price`, `quantity` | C, 주문 기능은 별도 구현 |
 
 제품·채소·레시피의 `id`는 초기 범위에서 안정적인 문자열을 사용합니다. 예: `potato`, `potato-small-2kg`, `potato-pancake`. 사용자 ID는 Auth의 UUID를 사용하며, 이름이나 배열 순서로 상품을 연결하지 않습니다.
 
@@ -487,13 +485,13 @@ Next.js 15 이하를 사용하게 된다면 `proxy.ts` 대신 `middleware.ts`가
 
 ### Migration·seed 규칙
 
-1. B의 catalog → A의 recipes → C의 profiles·shopping·storage 순서로 의존성을 정리.
+1. C가 `202610080001_profiles.sql` → `202610080002_market_tables.sql` 순서로 적용. 두 번째 파일 안에서 채소 → 상품·레시피 → 연결·개인·주문 테이블의 외래 키 의존성을 정리.
 2. 실제 migration은 Supabase CLI가 생성한 timestamp 파일명을 사용하고, 생성 후 순서를 확인.
 3. 이미 공유 DB에 적용한 migration은 수정하지 않고 새 migration 추가.
 4. 각자의 seed를 분리하고 catalog → recipes 순서로 적용. `config.toml`의 seed 경로를 실제 파일과 맞춤.
 5. 반복 입력해도 중복이 생기지 않도록 seed ID와 upsert 기준을 고정.
 6. seed에는 실제 개인정보·비밀번호를 넣지 않음. 테스트 계정은 Supabase Auth에서 따로 준비.
-7. 공유 DB에 migration을 적용하는 사람은 C 한 명으로 통일. A·B는 SQL PR을 제공.
+7. 공통 migration 작성·공유 DB 적용은 C 한 명으로 통일. A·B는 컬럼 변경 요청과 자기 seed SQL PR을 제공.
 8. 공유 원격 DB에서 reset하지 않음. 초기화 검증은 별도 로컬·개발 환경에서 수행.
 
 처음에는 채소 6종 이상, 판매 상품 6개 이상, 레시피 4개 이상으로 전체 흐름을 완성한 뒤 데이터를 늘립니다. migration 작성·적용 방법은 [Supabase 공식 문서](https://supabase.com/docs/guides/local-development/database-migrations)를 따릅니다.
@@ -557,6 +555,8 @@ SSR 세션은 Supabase 공식 쿠키 기반 구성을 사용하고, 만료 토�
 
 ### 기본 방식
 
+**2026-10-08 적용 완료:** `market-images` bucket·5 MiB/MIME 제한·일반 사용자 쓰기 차단 정책을 실제 Supabase에 적용했습니다. DB 타입·`getImageUrl`·`next/image` 허용 경로도 연결했습니다. 실제 이미지 업로드는 A·B가 진행합니다. 새 환경 설치·빌드·실행 검증과 프론트 layout의 CSS 연결 방법은 [공통 기반 완료 기록](docs/backend.md#공통-기반-완료-기록--2026-10-08)을 참고합니다.
+
 - 공개 상품 이미지를 저장하는 `market-images` public bucket 1개로 시작.
 - 파일 경로는 `brand/`, `products/`, `vegetables/`, `recipes/`로 구분.
 - DB에는 bucket 기준 상대 경로를 저장하고 공통 함수로 URL 생성.
@@ -618,6 +618,8 @@ RLS 정책과 역할 권한은 별도 사용자 2명으로 실제 허용·차단
 
 ### 13-1. 버전 확인과 앱 생성
 
+**현재 브랜치에는 공통 Next.js 설정과 package 파일을 추가했으므로 아래 생성 명령을 다시 실행하지 않습니다.** 기존 생성 절차는 참고용이며, 현재 실행은 14장과 [백엔드 안내](docs/backend.md)를 따릅니다.
+
 ```bash
 node --version
 npm --version
@@ -668,7 +670,7 @@ Next.js 16에서 오래된 `next lint` 예제를 그대로 사용하지 않습�
 1. C가 개발용 프로젝트 생성, 팀 접근 권한과 담당자 확정.
 2. 프로젝트 URL·publishable key를 개인 환경변수로 전달.
 3. Auth의 Site URL을 로컬 주소와 맞추고 배포 시 운영 주소로 조정. Redirect URL도 사용하는 정확한 주소만 허용.
-4. A·B·C의 migration 검토 후 의존성 순서대로 적용.
+4. C의 공통 migration을 A·B가 컬럼 검토한 뒤 프로필 → 공통 테이블 순서로 적용.
 5. catalog·recipe seed 적용. 테스트 Auth 계정 2개와 프로필 준비.
 6. Storage bucket·이미지·권한 설정.
 7. 서버·브라우저 클라이언트와 세션 갱신 연결.
@@ -692,7 +694,7 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
 ## 14. 팀원 로컬 실행
 
-**초기 앱 구축이 main에 합쳐진 뒤** 모든 팀원이 아래 순서로 실행합니다. 현재 README만 있는 상태에서는 `npm ci`나 앱 실행이 되지 않습니다.
+**공통 기반 변경을 받은 뒤** 모든 팀원이 아래 순서로 실행합니다. 현재 브랜치에서는 `npm ci`와 서버 실행이 가능합니다. 프론트 페이지를 추가하기 전에는 `/api/health`로 실행 여부를 확인하며 메인 `/`의 404는 정상입니다.
 
 ```bash
 git clone https://github.com/KANT-2/group_6_vegetable_project.git
@@ -813,7 +815,7 @@ git push -u origin feat/products
 5. 세로·가로 회전, 키보드 열기·닫기, 필터 열기·닫기, 브라우저 뒤로 가기·새로고침을 확인.
 6. `docs/mobile-checklist.md`에 기기·브라우저·페이지·결과·문제·수정자를 기록.
 
-앱 코드가 아직 없는 현재 단계에서는 위 항목은 요구사항이며, 모바일 동작이 구현·검증 완료되었다고 표시하지 않습니다.
+프론트 화면이 아직 없는 현재 단계에서는 위 항목은 요구사항이며, 모바일 동작이 구현·검증 완료되었다고 표시하지 않습니다.
 
 ## 17. 개발 일정과 우선순위
 
@@ -890,7 +892,7 @@ npm run build
 
 ## 19. Vercel 배포
 
-1. B가 GitHub 저장소를 Vercel 프로젝트로 연결하고 C가 인증·환경변수 설정을 검수. 아직 앱이 없는 현재 상태에서는 배포하지 않음.
+1. B가 GitHub 저장소를 Vercel 프로젝트로 연결하고 C가 인증·환경변수 설정을 검수. 현재는 서버 기반만 추가했으며 서비스 배포는 프론트 구현·실제 연결 검증 후 진행.
 2. 프레임워크 Next.js, 프로젝트 루트·npm lockfile·Node 주 버전 확인.
 3. Development·Preview·Production의 실제 환경변수 등록.
 4. Supabase 프로젝트·Storage 이미지 경로 확인. 개인 데이터는 개발·운영 환경을 구분.
@@ -903,8 +905,8 @@ Next.js 배포·환경 설정은 [Vercel 공식 안내](https://vercel.com/docs/
 
 | 항목 | 현재 상태 |
 |---|---|
-| 애플리케이션 코드 | 구축 예정 |
-| Supabase 프로젝트 | 미설정 |
+| 애플리케이션 코드 | 서버 기반 추가, 프론트 구현 전 |
+| Supabase 프로젝트 | 연결·9개 테이블·B catalog seed 적용, 실제 계정 연동 검증 전 |
 | Vercel 배포 URL | 미배포 |
 | 담당자 실명 | A 조영우 / B 심우섭 / C 이상재 |
 | 테스트 계정 | C가 준비, 자격 증명은 저장소에 기록하지 않음 |

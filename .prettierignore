@@ -1,0 +1,16 @@
+node_modules/
+.next/
+out/
+build/
+package-lock.json
+next-env.d.ts
+*.tsbuildinfo
+playwright-report/
+test-results/
+README.md
+docs/ERD.md
+docs/wireframes/
+src/data/mock/
+src/types/product.ts
+src/types/vegetable.ts
+src/lib/format.ts
