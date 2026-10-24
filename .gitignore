@@ -53,6 +53,13 @@ desktop.ini
 # 기타
 *.pem
 
+# 회원·배송지·인증 토큰이 포함될 수 있는 원본 DB 덤프
+*.backup
+*.backup.gz
+*.dump
+*.dump.gz
+db_cluster-*
+
 # 개인 실행 데이터베이스와 Python 캐시
 var/food-catalog/
 __pycache__/

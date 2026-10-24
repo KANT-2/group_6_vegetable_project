@@ -13,6 +13,7 @@
 - [팀 Notion](https://app.notion.com/p/teamsparta/6-3f22dc3ef514808ea570f2df24d9af94)
 - [Redmine 작업 현황](https://redmine-302549221655.asia-northeast3.run.app/projects/ax2-react-team6)
 - [발표 자료](docs/presentation/motnani-market-presentation.pdf)
+- [공개 콘텐츠 복구 안내](docs/public-content-restore.md) — seed·앱 콘텐츠·Storage 이미지
 
 ## 현재 구현 상태
 

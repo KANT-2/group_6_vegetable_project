@@ -1,0 +1,473 @@
+{
+  "bucket": "market-images",
+  "archive": "market-images.zip",
+  "sha256": "c30c6fa9f044fcecaf6c73d6d0213ad7107303eb70b634f2a2988f702903fea4",
+  "fileCount": 93,
+  "files": [
+    {
+      "path": "market-images/products/aehobak-bent.jpg",
+      "bytes": 95683,
+      "sha256": "53686ee76001b61f4eadad87218914194f78ff911336f482cecf51b799ffd47c"
+    },
+    {
+      "path": "market-images/products/aehobak-scratched.jpg",
+      "bytes": 120481,
+      "sha256": "9509f2ce5c85262fa62e362e8370b8d7a97b033d36dc3c9533476d7f377ecbc1"
+    },
+    {
+      "path": "market-images/products/aehobak-small.jpg",
+      "bytes": 49784,
+      "sha256": "ea7f095031f24a143dd92de572e42dadb53d3aaf7cbbd22588d37895c1d5789d"
+    },
+    {
+      "path": "market-images/products/apple-irregular.jpg",
+      "bytes": 90555,
+      "sha256": "9864c506b3792aa9fc4f2df9474fb9ba77d1f1c447bcf7d961634896890bff3a"
+    },
+    {
+      "path": "market-images/products/apple-small.jpg",
+      "bytes": 143113,
+      "sha256": "3c92878bf7a7dcefe997267e344326ab111c9e05d329cf2fb0dc05cd52c6fa12"
+    },
+    {
+      "path": "market-images/products/apple.jpg",
+      "bytes": 70310,
+      "sha256": "c0000303fa911bf0e02343fcefbbc297ebb6faac5560c6229334e6b3e27e52a7"
+    },
+    {
+      "path": "market-images/products/broccoli-irregular.jpg",
+      "bytes": 61384,
+      "sha256": "82b85680829ff2ea5edb3e91cdeb2a2c931d7a791c3c79af2483a3a5063862bf"
+    },
+    {
+      "path": "market-images/products/broccoli-scratched.jpg",
+      "bytes": 272798,
+      "sha256": "7c362f247a1295de92ca27a4d50f54e0bc0692e6673124c29b4bad8240e71142"
+    },
+    {
+      "path": "market-images/products/broccoli-small.jpg",
+      "bytes": 83678,
+      "sha256": "0931baf07900b8d6fa0a3a2d768e75facd2fa1c2e4c3e6edef25fc7158619e83"
+    },
+    {
+      "path": "market-images/products/cabbage-irregular.jpg",
+      "bytes": 66988,
+      "sha256": "dad6ab5516bdc894879dc5e2d28b409ae9dec6d051c4974ff72bf37309a6a96c"
+    },
+    {
+      "path": "market-images/products/cabbage-scratched.jpg",
+      "bytes": 145108,
+      "sha256": "1b03d7041b1d5857bc35e766540f60930d76028b8382738cd600259cd80e7348"
+    },
+    {
+      "path": "market-images/products/cabbage.jpg",
+      "bytes": 76958,
+      "sha256": "eb3b52be10c100c1505eca0c122e018a65a870d5c74c776260cb7e496332adeb"
+    },
+    {
+      "path": "market-images/products/carrot-bulk.jpg",
+      "bytes": 45440,
+      "sha256": "f8c3594d66b6c25dc23c81bcadc78997f382fb0683279ac9065bc9a44665464f"
+    },
+    {
+      "path": "market-images/products/carrot-scratched.jpg",
+      "bytes": 92981,
+      "sha256": "2d13fed31d553964852d01d1700fb2fba46fc3e0dc89254052aa48f8587ebd05"
+    },
+    {
+      "path": "market-images/products/carrot.jpg",
+      "bytes": 51775,
+      "sha256": "b7208c2a94d572950cdb342c1094985c502f17d2cba0649cef6805d4f20d68e1"
+    },
+    {
+      "path": "market-images/products/chili-bent.jpg",
+      "bytes": 81929,
+      "sha256": "a2bebe37a810bf3150ed5cac226fc9f656a21a31ba6551e6dfb245e481caa1be"
+    },
+    {
+      "path": "market-images/products/chili-irregular.jpg",
+      "bytes": 144868,
+      "sha256": "f11f00abcbfdacbb339e1a72763955b5ef62172770bc840108b5d9ffbea808a5"
+    },
+    {
+      "path": "market-images/products/chili-scratched.jpg",
+      "bytes": 85992,
+      "sha256": "34e61ef0337b80dd3fdcfc82696fc3a785fadd5b4f82330f2be027942e566d41"
+    },
+    {
+      "path": "market-images/products/chili-small.jpg",
+      "bytes": 50035,
+      "sha256": "158a4e0146144f169141422d1310c0054bb5bdb2e60299f5af39d4688cb6cf57"
+    },
+    {
+      "path": "market-images/products/cucumber-scratched.jpg",
+      "bytes": 145838,
+      "sha256": "6a45aaedd8093bdfdf2b7c479e2e6797dde67897a91565acd906116764913dc5"
+    },
+    {
+      "path": "market-images/products/cucumber-small.jpg",
+      "bytes": 51605,
+      "sha256": "f868a38139012135ff965cb22468ffe8d82441745f9ad56b40c762c142305325"
+    },
+    {
+      "path": "market-images/products/cucumber.jpg",
+      "bytes": 56634,
+      "sha256": "7e091cdca753166579e98378a90d01fb31f25f7c94a40a3078518af00ded50e7"
+    },
+    {
+      "path": "market-images/products/danhobak-irregular.jpg",
+      "bytes": 114114,
+      "sha256": "bb997e53d881abbcbaef9ff3a8df2638d86f65859f6b5ccc5b535d016c1efb6c"
+    },
+    {
+      "path": "market-images/products/danhobak-scratched.jpg",
+      "bytes": 235207,
+      "sha256": "53816acbefb3f7fac53e0a4585c563f5ba7b9356e32ebe749336624db45b1ec6"
+    },
+    {
+      "path": "market-images/products/danhobak-small.jpg",
+      "bytes": 87523,
+      "sha256": "f8a673ed18f754eaa93a9ba89f384a7720eb45c8da941934f67339df2b32170c"
+    },
+    {
+      "path": "market-images/products/eggplant-bent.jpg",
+      "bytes": 25867,
+      "sha256": "49455b370a5cec4ceae84f634b07624ac337a1612532e3680f6c657b024b4ebd"
+    },
+    {
+      "path": "market-images/products/eggplant-irregular.jpg",
+      "bytes": 52633,
+      "sha256": "5be3cc1e3da9bdb4ffae32a7c9e7e44128b1ab2b0ffd1e286b03b9b816f28c15"
+    },
+    {
+      "path": "market-images/products/eggplant-scratched.jpg",
+      "bytes": 124515,
+      "sha256": "c0802560fcc6ebf6dd370c989cfce95ffb762dcdcc1f6914e7d0378677bbaf8d"
+    },
+    {
+      "path": "market-images/products/eggplant-small.jpg",
+      "bytes": 109061,
+      "sha256": "9604789223e5d16052ecff5a009c345712e40c4801c71b01a294e63e89a5681b"
+    },
+    {
+      "path": "market-images/products/green-onion-bent.jpg",
+      "bytes": 180765,
+      "sha256": "589a508e3ead6b9b37a3deab5e0f178bbb08338999eb39e851a7952a9af3f8ad"
+    },
+    {
+      "path": "market-images/products/green-onion-irregular.jpg",
+      "bytes": 143762,
+      "sha256": "2730e151801c79bc0ba029e182f7621bddb4400645b935c3d864e56556e7a2f9"
+    },
+    {
+      "path": "market-images/products/green-onion-scratched.jpg",
+      "bytes": 144793,
+      "sha256": "ca94a1754067a94ab573ef94a57309f5a702b9fec92132f1e51de12ef941d14a"
+    },
+    {
+      "path": "market-images/products/green-onion.jpg",
+      "bytes": 50360,
+      "sha256": "64acc5c54e23238a37a86fb52cecb6a7bdc888cb53026c39125b8ebab0bc6950"
+    },
+    {
+      "path": "market-images/products/king-oyster-bent-bulk.jpg",
+      "bytes": 93672,
+      "sha256": "50e7973fc9baf31151836c9a99627dd335d7d5049f993262d24089d08c8d82b6"
+    },
+    {
+      "path": "market-images/products/king-oyster-bent.jpg",
+      "bytes": 52277,
+      "sha256": "f3681c23061b3a87cf6786ddb90b91851ba1d5c3051f07d706369ff956c618c9"
+    },
+    {
+      "path": "market-images/products/king-oyster-irregular-500g.jpg",
+      "bytes": 52277,
+      "sha256": "f3681c23061b3a87cf6786ddb90b91851ba1d5c3051f07d706369ff956c618c9"
+    },
+    {
+      "path": "market-images/products/king-oyster-irregular.jpg",
+      "bytes": 87542,
+      "sha256": "d06a645c1d259f81045672f1954867a4e0cc96c7625147510f1cc5b6f6958d42"
+    },
+    {
+      "path": "market-images/products/king-oyster-scratched-1kg.jpg",
+      "bytes": 148685,
+      "sha256": "7da792112f3490ff3825d9f2faef3f798a2d9e30e60fad806591d29e619ced39"
+    },
+    {
+      "path": "market-images/products/king-oyster-scratched.jpg",
+      "bytes": 167932,
+      "sha256": "e30a3d41eae799182d02c0bdb5f41eddd1ba93caa39812c1ec094dbb365ccf7e"
+    },
+    {
+      "path": "market-images/products/king-oyster-small.jpg",
+      "bytes": 35139,
+      "sha256": "023f543765baad39e6b87496632808ea172a6d1156e365fffe920fe1adb4ac14"
+    },
+    {
+      "path": "market-images/products/mandarin-irregular.jpg",
+      "bytes": 155698,
+      "sha256": "daf623931a9416fadfc13f313372d078ba0db2c3e9899921fa867fc9d4ff1a6c"
+    },
+    {
+      "path": "market-images/products/mandarin-scratched.jpg",
+      "bytes": 85209,
+      "sha256": "8b5238986750216035aeaa89e65faf633bee4a4da8b8bd1e43c9dba10760960c"
+    },
+    {
+      "path": "market-images/products/mandarin-small.jpg",
+      "bytes": 105897,
+      "sha256": "84ce6e8fa821f0be9e32ac1743b9e59680981cc0c84f1d375a009668d32c7956"
+    },
+    {
+      "path": "market-images/products/napa-cabbage-irregular.jpg",
+      "bytes": 69283,
+      "sha256": "7ace640898620e14166bd75b57710839654478c666413cd60aee759288028011"
+    },
+    {
+      "path": "market-images/products/napa-cabbage-scratched.jpg",
+      "bytes": 113775,
+      "sha256": "a57a9861128eb7819b5c2e118e7dfbc79b526a43c0ca9e18c5209561cff97317"
+    },
+    {
+      "path": "market-images/products/napa-cabbage-small.jpg",
+      "bytes": 86060,
+      "sha256": "e07e3c1582e59e44e66f124e0b73ee31c9b2f165a3b98ff5f430a6f54a9d8b3c"
+    },
+    {
+      "path": "market-images/products/onion-irregular.jpg",
+      "bytes": 105354,
+      "sha256": "117c2c9f746b2b61ab445abde2459974c335bdbe50b0e78af48f1db2b667752c"
+    },
+    {
+      "path": "market-images/products/onion-scratched.jpg",
+      "bytes": 96525,
+      "sha256": "01921add85f9da83b73928767f8d70395790848669f725a8df5c76d15b69e08b"
+    },
+    {
+      "path": "market-images/products/onion.jpg",
+      "bytes": 56207,
+      "sha256": "4e3cf202d517828add1fcd84b6e65806cb31f633bad485a2bf6a0608cc72c00b"
+    },
+    {
+      "path": "market-images/products/paprika-scratched.jpg",
+      "bytes": 88350,
+      "sha256": "26bbc369dba1b2dfe4189c9f912f58ce9e35b8bd43ac594b8811bd5ef0cab71b"
+    },
+    {
+      "path": "market-images/products/paprika-small.jpg",
+      "bytes": 27781,
+      "sha256": "3b4b5bbfd972a0eb32daf10a84b194fabf9fe8cc53f51779f63aa58d8b550409"
+    },
+    {
+      "path": "market-images/products/paprika.jpg",
+      "bytes": 49735,
+      "sha256": "39ae2f52b860b02c9e1d86f1c7409f1d0ded281bcb45026e66542f82b5c95d20"
+    },
+    {
+      "path": "market-images/products/potato-irregular.jpg",
+      "bytes": 53976,
+      "sha256": "cf6c328f2294c4f327d6869e177215d8ca33441279cd4e82652dbeac2bf97ce7"
+    },
+    {
+      "path": "market-images/products/potato-scratched.jpg",
+      "bytes": 178343,
+      "sha256": "382ea90201c2bc542c114adb993a5a6bce15e3578f107231a08172f7dde1b78d"
+    },
+    {
+      "path": "market-images/products/potato-small.jpg",
+      "bytes": 49810,
+      "sha256": "88e2a5b8c160fcb9b527b6469f917178121c4c58efec181dc9e836b631542935"
+    },
+    {
+      "path": "market-images/products/radish-bent.jpg",
+      "bytes": 104354,
+      "sha256": "d1d8d0b6d009a4384b8826dc97da2307bbc0283175cf9a8d4ebf9259206d3aae"
+    },
+    {
+      "path": "market-images/products/radish-irregular.jpg",
+      "bytes": 153800,
+      "sha256": "13ea222d5f982cafb66384f875efebf1e2f0d1037d63e53a64e44d03e27f708e"
+    },
+    {
+      "path": "market-images/products/radish-scratched.jpg",
+      "bytes": 178804,
+      "sha256": "298cec3920585f5458906262e2f9e35902f06bba7962449a05c5b6d8a27d57b9"
+    },
+    {
+      "path": "market-images/products/radish-small.jpg",
+      "bytes": 75726,
+      "sha256": "7c0921d1a355dc7a0ffbf84508f2e25e8a912253d6b568df49e963f5d0fb912f"
+    },
+    {
+      "path": "market-images/products/shiitake-scratched.jpg",
+      "bytes": 223823,
+      "sha256": "302a70ef84a0d565eb05f8313d1b9c05a144eeb636f1db9d6d88e78f464bfe7d"
+    },
+    {
+      "path": "market-images/products/shiitake-small.jpg",
+      "bytes": 92070,
+      "sha256": "effb28091b136c563c7f04f0e1a1b76f0abe42293a7e41b2aa1399c0725287d9"
+    },
+    {
+      "path": "market-images/products/shiitake.jpg",
+      "bytes": 88316,
+      "sha256": "6b2245759698b3c54fbded0b630edf444a4a65afcd2f265ceff92aa484b7e86d"
+    },
+    {
+      "path": "market-images/products/spinach-irregular.jpg",
+      "bytes": 140881,
+      "sha256": "61044be23980e3b02cde27ac50e575cedb5d212923d1b76030b773ab28604f39"
+    },
+    {
+      "path": "market-images/products/spinach-scratched.jpg",
+      "bytes": 88324,
+      "sha256": "3f6ffcdbfe7ec738767e0eba365cbfff55756019c0c78a429df22c3215cdc2f1"
+    },
+    {
+      "path": "market-images/products/spinach.jpg",
+      "bytes": 80105,
+      "sha256": "e112d1e29afdda6de93990ad0f9daa0d7fd5fa4d90edd5eeb910062042266baa"
+    },
+    {
+      "path": "market-images/products/sweet-potato-scratched.jpg",
+      "bytes": 109416,
+      "sha256": "97222d1bb3f4ebdbc108dde9350a37871ab259552accdfc21ed6ce4eeca7ec42"
+    },
+    {
+      "path": "market-images/products/sweet-potato-small.jpg",
+      "bytes": 56591,
+      "sha256": "ef51e4f2036133f46290cad05aaeef1608c7ae9b774a8d03407bd17530cd6de4"
+    },
+    {
+      "path": "market-images/products/sweet-potato.jpg",
+      "bytes": 170511,
+      "sha256": "abecb32d53602ef40a4b42b3d7ea8610c5c7107cb5117b123b97ebd5ecf9dba3"
+    },
+    {
+      "path": "market-images/products/tomato-scratched.jpg",
+      "bytes": 135957,
+      "sha256": "fc5c89ad762a956132f80aefffd24920e5dcb97521a5a6523c12e92dd2775549"
+    },
+    {
+      "path": "market-images/products/tomato-small.jpg",
+      "bytes": 58526,
+      "sha256": "47d713d7d42f29c38e06b7da2e3112774b3335ca5d28067ebc0ad2e9a9ba4e07"
+    },
+    {
+      "path": "market-images/products/tomato.jpg",
+      "bytes": 89446,
+      "sha256": "32db5c108e5d450414e7381221571d3911acecd63980dafb428734e8bffce131"
+    },
+    {
+      "path": "market-images/vegetables/aehobak-small.jpg",
+      "bytes": 49784,
+      "sha256": "ea7f095031f24a143dd92de572e42dadb53d3aaf7cbbd22588d37895c1d5789d"
+    },
+    {
+      "path": "market-images/vegetables/apple.jpg",
+      "bytes": 70310,
+      "sha256": "c0000303fa911bf0e02343fcefbbc297ebb6faac5560c6229334e6b3e27e52a7"
+    },
+    {
+      "path": "market-images/vegetables/broccoli-small.jpg",
+      "bytes": 83678,
+      "sha256": "0931baf07900b8d6fa0a3a2d768e75facd2fa1c2e4c3e6edef25fc7158619e83"
+    },
+    {
+      "path": "market-images/vegetables/cabbage.jpg",
+      "bytes": 76958,
+      "sha256": "eb3b52be10c100c1505eca0c122e018a65a870d5c74c776260cb7e496332adeb"
+    },
+    {
+      "path": "market-images/vegetables/carrot.jpg",
+      "bytes": 51775,
+      "sha256": "b7208c2a94d572950cdb342c1094985c502f17d2cba0649cef6805d4f20d68e1"
+    },
+    {
+      "path": "market-images/vegetables/chili-small.jpg",
+      "bytes": 50035,
+      "sha256": "158a4e0146144f169141422d1310c0054bb5bdb2e60299f5af39d4688cb6cf57"
+    },
+    {
+      "path": "market-images/vegetables/cucumber.jpg",
+      "bytes": 56634,
+      "sha256": "7e091cdca753166579e98378a90d01fb31f25f7c94a40a3078518af00ded50e7"
+    },
+    {
+      "path": "market-images/vegetables/danhobak-small.jpg",
+      "bytes": 87523,
+      "sha256": "f8a673ed18f754eaa93a9ba89f384a7720eb45c8da941934f67339df2b32170c"
+    },
+    {
+      "path": "market-images/vegetables/eggplant-small.jpg",
+      "bytes": 109061,
+      "sha256": "9604789223e5d16052ecff5a009c345712e40c4801c71b01a294e63e89a5681b"
+    },
+    {
+      "path": "market-images/vegetables/green-onion.jpg",
+      "bytes": 50360,
+      "sha256": "64acc5c54e23238a37a86fb52cecb6a7bdc888cb53026c39125b8ebab0bc6950"
+    },
+    {
+      "path": "market-images/vegetables/king-oyster-small.jpg",
+      "bytes": 35139,
+      "sha256": "023f543765baad39e6b87496632808ea172a6d1156e365fffe920fe1adb4ac14"
+    },
+    {
+      "path": "market-images/vegetables/mandarin-small.jpg",
+      "bytes": 105897,
+      "sha256": "84ce6e8fa821f0be9e32ac1743b9e59680981cc0c84f1d375a009668d32c7956"
+    },
+    {
+      "path": "market-images/vegetables/napa-cabbage-small.jpg",
+      "bytes": 86060,
+      "sha256": "e07e3c1582e59e44e66f124e0b73ee31c9b2f165a3b98ff5f430a6f54a9d8b3c"
+    },
+    {
+      "path": "market-images/vegetables/onion.jpg",
+      "bytes": 56207,
+      "sha256": "4e3cf202d517828add1fcd84b6e65806cb31f633bad485a2bf6a0608cc72c00b"
+    },
+    {
+      "path": "market-images/vegetables/paprika.jpg",
+      "bytes": 49735,
+      "sha256": "39ae2f52b860b02c9e1d86f1c7409f1d0ded281bcb45026e66542f82b5c95d20"
+    },
+    {
+      "path": "market-images/vegetables/potato-small.jpg",
+      "bytes": 49810,
+      "sha256": "88e2a5b8c160fcb9b527b6469f917178121c4c58efec181dc9e836b631542935"
+    },
+    {
+      "path": "market-images/vegetables/radish-bent.jpg",
+      "bytes": 104354,
+      "sha256": "d1d8d0b6d009a4384b8826dc97da2307bbc0283175cf9a8d4ebf9259206d3aae"
+    },
+    {
+      "path": "market-images/vegetables/radish.jpg",
+      "bytes": 54981,
+      "sha256": "bf2aa76a9522825945fc90fddc35cf0cf6cb9e3e14c14de43fc1ae2b6e196801"
+    },
+    {
+      "path": "market-images/vegetables/shiitake.jpg",
+      "bytes": 88316,
+      "sha256": "6b2245759698b3c54fbded0b630edf444a4a65afcd2f265ceff92aa484b7e86d"
+    },
+    {
+      "path": "market-images/vegetables/spinach.jpg",
+      "bytes": 80105,
+      "sha256": "e112d1e29afdda6de93990ad0f9daa0d7fd5fa4d90edd5eeb910062042266baa"
+    },
+    {
+      "path": "market-images/vegetables/sweet-potato.jpg",
+      "bytes": 170511,
+      "sha256": "abecb32d53602ef40a4b42b3d7ea8610c5c7107cb5117b123b97ebd5ecf9dba3"
+    },
+    {
+      "path": "market-images/vegetables/tomato.jpg",
+      "bytes": 89446,
+      "sha256": "32db5c108e5d450414e7381221571d3911acecd63980dafb428734e8bffce131"
+    }
+  ]
+}
